@@ -1,4 +1,4 @@
-resource "azurerm_virtual_machine_extension" "custom_scriptextension" {
+resource "azurerm_virtual_machine_extension" "custom_script" {
   for_each                   = var.extension_name == "custom_script" ? toset(["enabled"]) : toset([])
   name                       = "custom_script"
   virtual_machine_id         = var.virtual_machine_id
