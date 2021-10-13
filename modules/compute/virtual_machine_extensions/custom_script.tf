@@ -17,7 +17,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
     {
       "commandToExecute" : try(var.extension.commandtoexecute, ""),
       "managedIdentity" : {
-        objectid : try(local.managed_identities, "")     
+        "objectid" : try(local.managed_identities, "")     
       }      
     }
   )
