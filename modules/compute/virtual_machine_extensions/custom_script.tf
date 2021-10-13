@@ -9,13 +9,14 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 
   settings = jsonencode(
     {
-      "fileUris" : try(var.extension.file_uris, ""),
-      "timestamp" : try(var.extension.timestamp, "12345678")
+      "fileUris" : try(var.extension.fileuris, ""),
+      "timestamp" : try(var.extension.timestamp, formatdate("YYYYMMDDhhmmss", timestamp()))
     }
   )
   protected_settings = jsonencode(
     {
-      "commandToExecute" : try(var.extension.commandtoexecute, "")
+      "commandToExecute" : try(var.extension.commandtoexecute, ""),
+      "managed_identity" : ""
     }
   )
 }
