@@ -44,3 +44,7 @@ locals {
 
   managed_identities = concat(local.managed_local_identities, local.managed_remote_identities)
 }
+
+variable "managed_identities" {
+  default = {}
+}
