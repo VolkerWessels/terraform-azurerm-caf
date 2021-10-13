@@ -16,7 +16,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   protected_settings = jsonencode(
     {
       "commandToExecute" : try(var.extension.commandtoexecute, ""),
-      "managed_identity" : ""
+      "managedIdentity" : ""
     }
   )
 }
