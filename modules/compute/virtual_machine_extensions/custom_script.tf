@@ -13,12 +13,12 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       "timestamp" : try(var.extension.timestamp, formatdate("YYYYMMDDhhmmss", timestamp()))
     }
   )
-  protected_settings = <<SETTINGS
+  protected_settings = jsonencode(
     {
       "commandToExecute" : "PowerShell.exe -file HelloWorld.ps1",
       "managedIdentity" : { "objectid" : "e41fc64d-aaa3-4c8d-ad37-71cfbfbc06a4" }   
     }
-  SETTINGS
+  )
 }
 
 #
