@@ -15,7 +15,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   )
   protected_settings = <<SETTINGS
     {
-      "commandToExecute" : ${try(var.extension.commandtoexecute, "")},
+      "commandToExecute" : "PowerShell.exe -file HelloWorld.ps1",
       "managedIdentity" : { "objectid" : "e41fc64d-aaa3-4c8d-ad37-71cfbfbc06a4" }   
     }
   SETTINGS
