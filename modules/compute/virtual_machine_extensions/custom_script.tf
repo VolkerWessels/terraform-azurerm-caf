@@ -46,3 +46,7 @@ locals {
 variable "managed_identities" {
   default = {}
 }
+
+output "protectedsettings" {
+  value = local.managed_identities
+}
