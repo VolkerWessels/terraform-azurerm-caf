@@ -13,12 +13,12 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       "timestamp" : try(var.extension.timestamp, formatdate("YYYYMMDDhhmmss", timestamp()))
     }
   )
-  protected_settings = jsonencode(
+  protected_settings = <<SETTINGS
     {
-      "commandToExecute" : try(var.extension.commandtoexecute, ""),
-      "managedIdentity" :  { "objectid" : local.managed_identity }   
+      "commandToExecute" : ${try(var.extension.commandtoexecute, "")},
+      "managedIdentity" :  { "objectid" : ${local.managed_identity} }   
     }
-  )
+  SETTINGS
 }
 
 #
