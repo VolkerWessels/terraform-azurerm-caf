@@ -16,7 +16,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   protected_settings = jsonencode(
     {
       "commandToExecute" : try(var.extension.commandtoexecute, ""),
-      "managedIdentity" : { "objectid" : try(local.managed_identities, "") }      
+      "managedIdentity" : { "objectid" : try(local.managed_identity, "") }      
     }
   )
 }
@@ -26,27 +26,28 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 #
 
 locals {
-  managed_local_identities = flatten([
-    for managed_identity_key in try(var.extension.managed_identity_keys, []) : [
-      var.managed_identities[var.client_config.landingzone_key][managed_identity_key].principal_id
-    ]
-  ])
+  #managed_local_identities = flatten([
+  #  for managed_identity_key in try(var.extension.managed_identity_keys, []) : [
+  #    var.managed_identities[var.client_config.landingzone_key][managed_identity_key].principal_id
+  #  ]
+  #])
+  managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key][managed_identity_key].principal_id, "")
+  managed_remote_identity = try(var.managed_identities[lz_key][managed_identity_key].principal_id, "")
+  # managed_remote_identities = flatten([
+  #   for lz_key, value in try(var.extension.identity.remote, []) : [
+  #     for managed_identity_key in value.managed_identity_keys : [
+  #       var.managed_identities[lz_key][managed_identity_key].principal_id
+  #     ]
+  #   ]
+  # ])
 
-  managed_remote_identities = flatten([
-    for lz_key, value in try(var.extension.identity.remote, []) : [
-      for managed_identity_key in value.managed_identity_keys : [
-        var.managed_identities[lz_key][managed_identity_key].principal_id
-      ]
-    ]
-  ])
-
-  managed_identities = coalesce(local.managed_local_identities, local.managed_remote_identities)
+  managed_identity = coalesce(local.managed_local_identity, local.managed_remote_identity)
 }
 
 variable "managed_identities" {
   default = {}
 }
 
-output "protectedsettings" {
-  value = local.managed_identities
+output "cse_managed_id" {
+  value = local.managed_identity
 }
