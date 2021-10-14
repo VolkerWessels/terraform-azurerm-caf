@@ -43,7 +43,7 @@ locals {
 
   managed_identities = coalesce(local.managed_local_identities, local.managed_remote_identities)
   managed_identity = try(local.managed_identities, "")
-  managed_id = "" ? "" : {"objectid": "${managed_identity}"}
+  managed_id = managed_identity == "" ? "" : {"objectid": "${managed_identity}"}
 }
 
 variable "managed_identities" {
@@ -54,5 +54,5 @@ output "cse_managed_identity" {
   value = local.managed_identity
 }
 output "cse_managed_id" {
-  value = local.managed_id
+  value = local.managed_identity
 }
