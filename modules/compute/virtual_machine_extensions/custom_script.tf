@@ -16,7 +16,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   protected_settings = jsonencode(
     {
       "commandToExecute" : try(var.extension.commandtoexecute, ""),
-      "managedIdentity" : {}      
+      "managedIdentity" : local.managed_id      
     }
   )
 }
@@ -41,13 +41,18 @@ locals {
     ]
   ])
 
-  managed_identity = coalesce(local.managed_local_identities, local.managed_remote_identities)
+  managed_identities = coalesce(local.managed_local_identities, local.managed_remote_identities)
+  managed_identity = try(local.managed_identities, "")
+  managed_id = "" ? "" : {"objectid": "${managed_identity}"}
 }
 
 variable "managed_identities" {
   default = {}
 }
 
-output "cse_managed_id" {
+output "cse_managed_identity" {
   value = local.managed_identity
+}
+output "cse_managed_id" {
+  value = local.managed_id
 }
