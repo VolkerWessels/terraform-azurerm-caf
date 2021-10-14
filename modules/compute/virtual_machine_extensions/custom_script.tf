@@ -41,7 +41,7 @@ locals {
   #   ]
   # ])
 
-  # managed_identities = coalesce(local.managed_local_identities, local.managed_remote_identities)
+  #managed_identities = concat(local.managed_local_identities, local.managed_remote_identities)
   managed_identity = "e41fc64d-aaa3-4c8d-ad37-71cfbfbc06a4"
 }
 
