@@ -26,24 +26,21 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 #
 
 locals {
-  managed_local_identities = flatten([
-    for managed_identity_key in try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_keys, []) : [
-      var.managed_identities[var.client_config.landingzone_key][managed_identity_key].id
-    ]
-  ])
+  managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key][managed_identity_key].princpal_id, "")
+  managed_remote_identity = try(var.managed_identities[lz_key][managed_identity_key].principal_id, "")
 
-  managed_remote_identities = flatten([
-    for keyvault_key, value in try(var.settings.virtual_machine_settings[local.os_type].identity.remote, []) : [
-      for managed_identity_key in value.managed_identity_keys : [
-        var.managed_identities[keyvault_key][managed_identity_key].id
-      ]
-    ]
-  ])
+  # managed_remote_identities = flatten([
+  #   for keyvault_key, value in try(var.settings.virtual_machine_settings[local.os_type].identity.remote, []) : [
+  #     for managed_identity_key in value.managed_identity_keys : [
+  #       var.managed_identities[keyvault_key][managed_identity_key].id
+  #     ]
+  #   ]
+  # ])
 
-  provided_identities = try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_ids, [])
+  # provided_identities = try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_ids, [])
 
-  managed_identities = concat(local.provided_identities, local.managed_local_identities, local.managed_remote_identities)
-  managed_identity = coalesce(managed_identities)
+  #managed_identities = concat(local.provided_identities, local.managed_local_identities, local.managed_remote_identities)
+  managed_identity = coalesce(local.managed_local_identity, local.managed_remote_identity)
 }
 
 variable "managed_identities" {
