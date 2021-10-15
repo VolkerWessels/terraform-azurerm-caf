@@ -15,8 +15,8 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   )
   protected_settings = jsonencode(
     {
-      "commandToExecute" : "PowerShell.exe -file HelloWorld.ps1",
-      "managedIdentity" : { "objectid" : "e41fc64d-aaa3-4c8d-ad37-71cfbfbc06a4" }   
+      "commandToExecute" : try(var.extension.commandtoexecute, ""),
+      "managedIdentity" : { "objectid" : "${local.managed_identity}" }   
     }
   )
 }
@@ -26,23 +26,24 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 #
 
 locals {
-  # managed_local_identities = flatten([
-  #   for managed_identity_key in try(var.extension.managed_identity_keys, []) : [
-  #     var.managed_identities[var.client_config.landingzone_key][managed_identity_key].principal_id
-  #   ]
-  # ])
-  # #managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key].managed_identity_key].principal_id, "")
-  # #managed_remote_identity = try(var.managed_identities[lz_key].managed_identity_key.principal_id, "")
-  # managed_remote_identities = flatten([
-  #   for lz_key, value in try(var.extension.remote, []) : [
-  #     for managed_identity_key in value.managed_identity_keys : [
-  #       var.managed_identities[lz_key][managed_identity_key].principal_id
-  #     ]
-  #   ]
-  # ])
+  managed_local_identities = flatten([
+    for managed_identity_key in try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_keys, []) : [
+      var.managed_identities[var.client_config.landingzone_key][managed_identity_key].id
+    ]
+  ])
 
-  #managed_identities = concat(local.managed_local_identities, local.managed_remote_identities)
-  managed_identity = "e41fc64d-aaa3-4c8d-ad37-71cfbfbc06a4"
+  managed_remote_identities = flatten([
+    for keyvault_key, value in try(var.settings.virtual_machine_settings[local.os_type].identity.remote, []) : [
+      for managed_identity_key in value.managed_identity_keys : [
+        var.managed_identities[keyvault_key][managed_identity_key].id
+      ]
+    ]
+  ])
+
+  provided_identities = try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_ids, [])
+
+  managed_identities = concat(local.provided_identities, local.managed_local_identities, local.managed_remote_identities)
+  managed_identity = coalesce(managed_identities)
 }
 
 variable "managed_identities" {
