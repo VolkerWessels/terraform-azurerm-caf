@@ -26,8 +26,8 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 #
 
 locals {
-  managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key][var.managed_identity_key].princpal_id, "")
-  managed_remote_identity = try(var.managed_identities[var.lz_key][var.managed_identity_key].principal_id, "")
+  managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].princpal_id, "")
+  managed_remote_identity = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].principal_id, "")
 
   # managed_remote_identities = flatten([
   #   for keyvault_key, value in try(var.settings.virtual_machine_settings[local.os_type].identity.remote, []) : [
