@@ -23,8 +23,8 @@ locals {
   provided_identity = try(var.extension.managed_identity_id, "")
   managed_identity = coalesce(local.managed_local_identity, local.managed_remote_identity, local.provided_identity)
   
-  system_assigned_id = local.identity_type == "systemassigned" ? {"managedIdentity" : {}} : null
-  user_assigned_id = local.identity_type == "userassigned" ? {"managedIdentity" : {"objectid" : "${local.managed_identity}"}} : null
+  system_assigned_id = local.identity_type == "SystemAssigned" ? {"managedIdentity" : {}} : null
+  user_assigned_id = local.identity_type == "UserAssigned" ? {"managedIdentity" : {"objectid" : "${local.managed_identity}"}} : null
   
   command = {"commandtoexecute" : "${var.extension.commandtoexecute}"}
 
