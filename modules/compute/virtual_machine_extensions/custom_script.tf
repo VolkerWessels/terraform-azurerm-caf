@@ -10,43 +10,27 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   settings = jsonencode(
     {
       "fileUris" : try(var.extension.fileuris, ""),
-      "timestamp" : try(var.extension.timestamp, formatdate("YYYYMMDDhhmmss", timestamp()))
+      "timestamp" : try(var.extension.timestamp, "12345678")
     }
   )
-  protected_settings = jsonencode(
-    {
-      "commandToExecute" : try(var.extension.commandtoexecute, ""),
-      "managedIdentity" : { "objectid" : "${local.managed_identity}" }   
-    }
-  )
+  protected_settings = jsonencode(local.protected_settings)
 }
 
-#
-# Managed identities from remote state
-#
-
 locals {
+  identity_type = try(var.extension.identity_type, "") #userassigned, systemassigned or null
   managed_local_identity = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].princpal_id, "")
   managed_remote_identity = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].principal_id, "")
+  provided_identity = try(var.extension.managed_identity_id, [])
+  managed_identity = coalesce(local.managed_local_identity, local.managed_remote_identity, local.provided_identity)
+  
+  system_assigned_id = local.identity_type == "systemassigned" ? {"managedIdentity" : {}} : null
+  user_assigned_id = local.identity_type == "userassigned" ? {"managedIdentity" : {"objectid" : "${local.managed_identity}"}} : null
+  
+  command = {"commandtoexecute" : "${var.extension.commandtoexecute}"}
 
-  # managed_remote_identities = flatten([
-  #   for keyvault_key, value in try(var.settings.virtual_machine_settings[local.os_type].identity.remote, []) : [
-  #     for managed_identity_key in value.managed_identity_keys : [
-  #       var.managed_identities[keyvault_key][managed_identity_key].id
-  #     ]
-  #   ]
-  # ])
-
-  # provided_identities = try(var.settings.virtual_machine_settings[local.os_type].identity.managed_identity_ids, [])
-
-  #managed_identities = concat(local.provided_identities, local.managed_local_identities, local.managed_remote_identities)
-  managed_identity = coalesce(local.managed_local_identity, local.managed_remote_identity)
+  protected_settings = merge(local.command,local.system_assigned_id,local.user_assigned_id) 
 }
 
 variable "managed_identities" {
   default = {}
-}
-
-output "cse_managed_identity" {
-  value = local.managed_identity
 }
