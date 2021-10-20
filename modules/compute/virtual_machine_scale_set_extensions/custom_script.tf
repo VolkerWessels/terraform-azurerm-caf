@@ -1,4 +1,4 @@
-esource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
+resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   for_each                   = var.extension_name == "custom_script" ? toset(["enabled"]) : toset([])
   name                       = "custom_script"
   virtual_machine_scale_set_id         = var.virtual_machine_scale_set_id
