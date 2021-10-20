@@ -161,21 +161,21 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     }
   }
 
-  dynamic "extension" {
-    for_each = try(each.value.extensions, {})
-
-    content {
-      name                       = try(extension.value.name, null)
-      publisher                  = try(extension.value.publisher, null)
-      type                       = try(extension.value.type, null)
-      type_handler_version       = try(extension.value.type_handler_version, null)
-      auto_upgrade_minor_version = try(extension.value.auto_upgrade_minor_version, null)
-      force_update_tag           = try(extension.value.force_update_tag, null)
-      protected_settings         = try(extension.value.protected_settings, null)
-      provision_after_extensions = try(extension.value.provision_after_extensions, null)
-      settings                   = try(extension.value.settings, null)
-    }
-  }
+  #dynamic "extension" {
+  #  for_each = try(each.value.extensions, {})
+#
+ #   content {
+  #    name                       = try(extension.value.name, null)
+  #   publisher                  = try(extension.value.publisher, null)
+  #    type                       = try(extension.value.type, null)
+   #   type_handler_version       = try(extension.value.type_handler_version, null)
+    #  auto_upgrade_minor_version = try(extension.value.auto_upgrade_minor_version, null)
+   #   force_update_tag           = try(extension.value.force_update_tag, null)
+   #   protected_settings         = try(extension.value.protected_settings, null)
+   #   provision_after_extensions = try(extension.value.provision_after_extensions, null)
+   #   settings                   = try(extension.value.settings, null)
+ #   }
+#  }
 
   dynamic "additional_capabilities" {
     for_each = try(each.value.ultra_ssd_enabled, false) == false ? [] : [1]
