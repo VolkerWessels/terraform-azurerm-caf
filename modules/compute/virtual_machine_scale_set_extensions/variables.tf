@@ -1,4 +1,4 @@
-variable "virtual_machine_id" {}
+variable "virtual_machine_scale_set_id" {}
 variable "extension" {}
 variable "extension_name" {}
 variable "settings" {

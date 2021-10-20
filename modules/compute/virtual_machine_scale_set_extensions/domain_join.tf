@@ -1,7 +1,7 @@
 resource "azurerm_virtual_machine_scale_set_extension" "domainjoin" {
   for_each                   = var.extension_name == "microsoft_azure_domainJoin" ? toset(["enabled"]) : toset([])
   name                       = "microsoft_azure_domainJoin"
-  virtual_machine_id         = var.virtual_machine_id
+  virtual_machine_scale_set_id         = var.virtual_machine_scale_set_id
   publisher                  = "Microsoft.Compute"
   type                       = "JsonADDomainExtension"
   type_handler_version       = try(var.extension.type_handler_version, "1.3")
