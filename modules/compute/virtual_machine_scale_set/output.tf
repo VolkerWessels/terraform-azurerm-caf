@@ -2,6 +2,10 @@ output "id" {
   value = local.os_type == "linux" ? try(azurerm_linux_virtual_machine_scale_set.vmss["linux"].id, null) : try(azurerm_windows_virtual_machine_scale_set.vmss["windows"].id, null)
 }
 
+output "ssc_test" {
+  value = try(azurerm_windows_virtual_machine_scale_set.vmss, "")
+}
+
 output "os_type" {
   value = local.os_type
 }
