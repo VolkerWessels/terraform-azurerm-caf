@@ -3,7 +3,7 @@ output "id" {
 }
 
 output "ssc_test" {
-  value = try(azurerm_windows_virtual_machine_scale_set.vmss, "")
+  value = try(azurerm_windows_virtual_machine_scale_set.vmss, "ssc_test")
 }
 
 output "os_type" {
