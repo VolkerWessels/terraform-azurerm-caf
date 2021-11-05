@@ -13,7 +13,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   # name                = azurecaf_name.this_name.result
   resource_group_name = var.resource_group_name
   location            = var.location
-  target_resource_id  = var.virtual_machine_scale_set.name
+  target_resource_id  = var.target_resource_id
 
   dynamic "profile_name" {
     for_each = try(var.monitor_autoscale_settings, {})
