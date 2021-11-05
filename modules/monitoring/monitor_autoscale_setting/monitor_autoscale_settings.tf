@@ -1,14 +1,14 @@
 # resource "azurecaf_name" "this_name" {
 #   name          = var.settings.action_group_name
 #   prefixes      = var.global_settings.prefixes
-#   resource_type = "azurerm_monitor_autoscale_setting"
+#   resource_type = "azurerm_monitor_autoscale_settings"
 #   random_length = var.global_settings.random_length
 #   clean_input   = true
 #   passthrough   = var.global_settings.passthrough
 #   use_slug      = var.global_settings.use_slug
 # }
 
-resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
+resource "azurerm_monitor_autoscale_settings" "this" {
   name                = "test"
   # name                = azurecaf_name.this_name.result
   resource_group_name = var.resource_group_name
@@ -16,7 +16,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
   target_resource_id  = var.virtual_machine_scale_set.name
 
   dynamic "profile_name" {
-    for_each = try(var.monitor_autoscale_setting, {})
+    for_each = try(var.monitor_autoscale_settings, {})
     content {
       profile {
         name = profile.value.name
@@ -24,7 +24,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
     }
 
     dynamic "capacity" {
-      for_each = try(var.monitor_autoscale_setting.profile, {})
+      for_each = try(var.monitor_autoscale_settings.profile, {})
       content {
         capacity {
           default = capacity.value.default
@@ -36,7 +36,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
 
     rule {
       dynamic "metric_trigger" {
-        for_each = try(var.monitor_autoscale_setting.rule, {})
+        for_each = try(var.monitor_autoscale_settings.rule, {})
         content {
           metric_trigger {
             metric_name        = metric_trigger.value.metric_name
@@ -51,7 +51,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
         }
       }
       dynamic "scale_action" {
-        for_each = try(var.monitor_autoscale_setting.rule, {})
+        for_each = try(var.monitor_autoscale_settings.rule, {})
         content {
           scale_action {
             direction = scale_action.value.direction
@@ -62,7 +62,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
         }
       }
       dynamic "recurrence" {
-        for_each = try(var.monitor_autoscale_setting.rule, {})
+        for_each = try(var.monitor_autoscale_settings.rule, {})
         content {
           recurrence {
             frequency = recurrence.value.frequency
@@ -77,7 +77,7 @@ resource "azurerm_monitor_autoscale_setting" "monitor_autoscale_setting_name" {
 
     notification {
       dynamic "email" {
-        for_each = try(var.monitor_autoscale_setting.notification, {})
+        for_each = try(var.monitor_autoscale_settings.notification, {})
         content {
           email {
             send_to_subscription_administrator    = email.value.send_to_subscription_administrator
