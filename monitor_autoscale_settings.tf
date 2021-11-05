@@ -1,5 +1,5 @@
 module "monitor_autoscale_settings" {
-  source              = "./modules/monitor_autoscale_settings"
+  source              = "./modules/monitoring/monitor_autoscale_settings"
   for_each            = local.shared_services.monitor_autoscale_settings
   global_settings     = local.global_settings
   settings            = each.value
