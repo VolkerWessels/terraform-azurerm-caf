@@ -8,7 +8,7 @@
 #   use_slug      = var.global_settings.use_slug
 # }
 
-resource "azurerm_monitor_autoscale_settings" "this" {
+resource "azurerm_monitor_autoscale_setting" "this" {
   name                = "test"
   # name                = azurecaf_name.this_name.result
   resource_group_name = var.resource_group_name
