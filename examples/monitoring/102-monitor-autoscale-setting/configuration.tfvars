@@ -1,12 +1,13 @@
 resource_groups = {
   autoscale = {
     name = "autoscale"
+    region = "region1"
   }
 }
 
-monitor_autoscale_setting = {
-  profile = {
-    name = profile1
+monitor_autoscale_settings = {
+  profile1 = {
+    name = "profile1"
 
     capacity = {
       default = 1
@@ -17,7 +18,7 @@ monitor_autoscale_setting = {
     rule = {
       metric_trigger = {
         metric_name        = "Percentage CPU"
-        metric_resource_id = azurerm_virtual_machine_scale_set.example.id
+        metric_resource_id = "id"
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
