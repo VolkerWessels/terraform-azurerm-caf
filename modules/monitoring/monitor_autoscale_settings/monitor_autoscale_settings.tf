@@ -1,4 +1,4 @@
-# resource "azurecaf_name" "this_name" {
+#resource "azurecaf_name" "this_name" {
 #   name          = var.settings.action_group_name
 #   prefixes      = var.global_settings.prefixes
 #   resource_type = "azurerm_monitor_autoscale_settings"
