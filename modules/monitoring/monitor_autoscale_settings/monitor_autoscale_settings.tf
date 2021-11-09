@@ -44,11 +44,11 @@ resource "azurerm_monitor_autoscale_setting" "this" {
         }
       }
       recurrence {
-        frequency = profile.rule.recurrence.value.frequency
-        timezone  = profile.rule.recurrence.value.timezone
-        days      = profile.rule.recurrence.value.days
-        hours     = profile.rule.recurrence.value.hours
-        minutes   = profile.rule.recurrence.value.minutes
+        frequency = profile.recurrence.value.frequency
+        timezone  = profile.recurrence.value.timezone
+        days      = profile.recurrence.value.days
+        hours     = profile.recurrence.value.hours
+        minutes   = profile.recurrence.value.minutes
       }
     }
     notification {
