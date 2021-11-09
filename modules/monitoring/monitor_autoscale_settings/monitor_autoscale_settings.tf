@@ -21,34 +21,34 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       name = profile.value.name
 
       capacity {
-        default = profile.capacity.value.default
-        minimum = profile.capacity.value.minimum
-        maximum = profile.capacity.value.maximum
+        default = capacity.value.default
+        minimum = capacity.value.minimum
+        maximum = capacity.value.maximum
       }
       rule {
         metric_trigger {
-          metric_name        = profile.rule.metric_trigger.value.metric_name
-          metric_resource_id = profile.rule.metric_trigger.value.metric_resource_id
-          time_grain         = profile.rule.metric_trigger.value.time_grain
-          statistic          = profile.rule.metric_trigger.value.statistic
-          time_window        = profile.rule.metric_trigger.value.time_window
-          time_aggregation   = profile.rule.metric_trigger.value.time_aggregation
-          operator           = profile.rule.metric_trigger.value.operator
-          threshold          = profile.rule.metric_trigger.value.threshold
+          metric_name        = rule.metric_trigger.value.metric_name
+          metric_resource_id = rule.metric_trigger.value.metric_resource_id
+          time_grain         = rule.metric_trigger.value.time_grain
+          statistic          = rule.metric_trigger.value.statistic
+          time_window        = rule.metric_trigger.value.time_window
+          time_aggregation   = rule.metric_trigger.value.time_aggregation
+          operator           = rule.metric_trigger.value.operator
+          threshold          = rule.metric_trigger.value.threshold
         }
         scale_action {
-          direction = profile.rule.scale_action.value.direction
-          type      = profile.rule.scale_action.value.type
-          value     = profile.rule.scale_action.value.value
-          cooldown  = profile.rule.scale_action.value.cooldown
+          direction = rule.scale_action.value.direction
+          type      = rule.scale_action.value.type
+          value     = rule.scale_action.value.value
+          cooldown  = rule.scale_action.value.cooldown
         }
       }
       recurrence {
-        frequency = profile.recurrence.value.frequency
-        timezone  = profile.recurrence.value.timezone
-        days      = profile.recurrence.value.days
-        hours     = profile.recurrence.value.hours
-        minutes   = profile.recurrence.value.minutes
+        frequency = recurrence.value.frequency
+        timezone  = recurrence.value.timezone
+        days      = recurrence.value.days
+        hours     = recurrence.value.hours
+        minutes   = recurrence.value.minutes
       }
     }
     notification {
