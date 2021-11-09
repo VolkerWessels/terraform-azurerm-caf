@@ -53,9 +53,9 @@ resource "azurerm_monitor_autoscale_setting" "this" {
     }
     notification {
       email {
-        send_to_subscription_administrator    = profile.notification.email.value.send_to_subscription_administrator
-        send_to_subscription_co_administrator = profile.notification.email.value.send_to_subscription_co_administrator
-        custom_emails                         = profile.notification.email.value.custom_emails
+        send_to_subscription_administrator    = notification.email.value.send_to_subscription_administrator
+        send_to_subscription_co_administrator = notification.email.value.send_to_subscription_co_administrator
+        custom_emails                         = notification.email.value.custom_emails
       }
     }
   }
