@@ -7,3 +7,6 @@ variable "monitor_autoscale_settings" {
   default = {}
   description = "The map from the monitor_autoscale_settings module configuration"
 }
+variable "settings" {
+  description = "Configuration object for the monitor autoscale setting resource"
+}
