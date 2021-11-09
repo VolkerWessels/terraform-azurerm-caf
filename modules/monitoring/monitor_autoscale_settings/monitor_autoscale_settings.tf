@@ -16,7 +16,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   target_resource_id  = var.target_resource_id
 
   dynamic "profile" {
-    for_each = try(var.settings, {})
+    for_each = var.settings.profile
     content {
       name = profile.value.name
 
