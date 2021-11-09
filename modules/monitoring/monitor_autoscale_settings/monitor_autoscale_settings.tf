@@ -15,75 +15,46 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   location            = var.location
   target_resource_id  = var.target_resource_id
 
-  profile {
-    dynamic "profile" {
-      for_each = try(var.settings.profile, {})
-      content {
-        name = profile.value.name
-      }
-    }
-  }
-
-  dynamic "capacity" {
-    for_each = try(var.settings.profile.capacity, {})
+  dynamic "profile" {
+    for_each = try(var.settings.profile, {})
     content {
+      name = profile.value.name
+
       capacity {
-        default = capacity.value.default
-        minimum = capacity.value.minimum
-        maximum = capacity.value.maximum
+        default = profile.capacity.value.default
+        minimum = profile.capacity.value.minimum
+        maximum = profile.capacity.value.maximum
       }
-    }
-  }
-
-  rule {
-    dynamic "metric_trigger" {
-      for_each = try(var.settings.profile.rule.metric_trigger, {})
-      content {
+      rule {
         metric_trigger {
-          metric_name        = metric_trigger.value.metric_name
-          metric_resource_id = metric_trigger.value.metric_resource_id
-          time_grain         = metric_trigger.value.time_grain
-          statistic          = metric_trigger.value.statistic
-          time_window        = metric_trigger.value.time_window
-          time_aggregation   = metric_trigger.value.time_aggregation
-          operator           = metric_trigger.value.operator
-          threshold          = metric_trigger.value.threshold
+          metric_name        = profile.rule.metric_trigger.value.metric_name
+          metric_resource_id = profile.rule.metric_trigger.value.metric_resource_id
+          time_grain         = profile.rule.metric_trigger.value.time_grain
+          statistic          = profile.rule.metric_trigger.value.statistic
+          time_window        = profile.rule.metric_trigger.value.time_window
+          time_aggregation   = profile.rule.metric_trigger.value.time_aggregation
+          operator           = profile.rule.metric_trigger.value.operator
+          threshold          = profile.rule.metric_trigger.value.threshold
         }
-      }
-    }
-    dynamic "scale_action" {
-      for_each = try(var.settings.profile.rule.scale_action, {})
-      content {
         scale_action {
-          direction = scale_action.value.direction
-          type      = scale_action.value.type
-          value     = scale_action.value.value
-          cooldown  = scale_action.value.cooldown
+          direction = profile.rule.scale_action.value.direction
+          type      = profile.rule.scale_action.value.type
+          value     = profile.rule.scale_action.value.value
+          cooldown  = profile.rule.scale_action.value.cooldown
         }
-      }
-    }
-    dynamic "recurrence" {
-      for_each = try(var.settings.profile.rule.recurrence, {})
-      content {
         recurrence {
-          frequency = recurrence.value.frequency
-          timezone  = recurrence.value.timezone
-          days      = recurrence.value.days
-          hours     = recurrence.value.hours
-          minutes   = recurrence.value.minutes
+          frequency = profile.rule.recurrence.value.frequency
+          timezone  = profile.rule.recurrence.value.timezone
+          days      = profile.rule.recurrence.value.days
+          hours     = profile.rule.recurrence.value.hours
+          minutes   = profile.rule.recurrence.value.minutes
         }
-      }
-    }
-  }
-
-  notification {
-    dynamic "email" {
-      for_each = try(var.settings.profile.notification, {})
-      content {
-        email {
-          send_to_subscription_administrator    = email.value.send_to_subscription_administrator
-          send_to_subscription_co_administrator = email.value.send_to_subscription_co_administrator
-          custom_emails                         = email.value.custom_emails
+        notification {
+          email {
+            send_to_subscription_administrator    = profile.notification.email.value.send_to_subscription_administrator
+            send_to_subscription_co_administrator = profile.notification.email.value.send_to_subscription_co_administrator
+            custom_emails                         = profile.notification.email.value.custom_emails
+          }
         }
       }
     }
