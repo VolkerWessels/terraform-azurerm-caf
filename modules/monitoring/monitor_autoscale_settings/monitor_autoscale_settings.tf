@@ -42,20 +42,20 @@ resource "azurerm_monitor_autoscale_setting" "this" {
           value     = profile.rule.scale_action.value.value
           cooldown  = profile.rule.scale_action.value.cooldown
         }
-        recurrence {
-          frequency = profile.rule.recurrence.value.frequency
-          timezone  = profile.rule.recurrence.value.timezone
-          days      = profile.rule.recurrence.value.days
-          hours     = profile.rule.recurrence.value.hours
-          minutes   = profile.rule.recurrence.value.minutes
-        }
-        notification {
-          email {
-            send_to_subscription_administrator    = profile.notification.email.value.send_to_subscription_administrator
-            send_to_subscription_co_administrator = profile.notification.email.value.send_to_subscription_co_administrator
-            custom_emails                         = profile.notification.email.value.custom_emails
-          }
-        }
+      }
+      recurrence {
+        frequency = profile.rule.recurrence.value.frequency
+        timezone  = profile.rule.recurrence.value.timezone
+        days      = profile.rule.recurrence.value.days
+        hours     = profile.rule.recurrence.value.hours
+        minutes   = profile.rule.recurrence.value.minutes
+      }
+    }
+    notification {
+      email {
+        send_to_subscription_administrator    = profile.notification.email.value.send_to_subscription_administrator
+        send_to_subscription_co_administrator = profile.notification.email.value.send_to_subscription_co_administrator
+        custom_emails                         = profile.notification.email.value.custom_emails
       }
     }
   }
