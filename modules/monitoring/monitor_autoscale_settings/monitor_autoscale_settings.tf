@@ -1,7 +1,7 @@
 #resource "azurecaf_name" "this_name" {
 #   name          = var.settings.action_group_name
 #   prefixes      = var.global_settings.prefixes
-#   resource_type = "azurerm_monitor_autoscale_settings"
+#   resource_type = "azurerm_monitor_autoscale_setting"
 #   random_length = var.global_settings.random_length
 #   clean_input   = true
 #   passthrough   = var.global_settings.passthrough
@@ -17,7 +17,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 
   profile {
     dynamic "profile" {
-      for_each = try(var.monitor_autoscale_settings, {})
+      for_each = try(var.settings.profile, {})
       content {
         name = profile.value.name
       }
@@ -25,7 +25,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   }
 
   dynamic "capacity" {
-    for_each = try(var.monitor_autoscale_settings.profile, {})
+    for_each = try(var.settings.profile.capacity, {})
     content {
       capacity {
         default = capacity.value.default
@@ -37,7 +37,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 
   rule {
     dynamic "metric_trigger" {
-      for_each = try(var.monitor_autoscale_settings.rule, {})
+      for_each = try(var.settings.profile.rule.metric_trigger, {})
       content {
         metric_trigger {
           metric_name        = metric_trigger.value.metric_name
@@ -52,7 +52,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
     }
     dynamic "scale_action" {
-      for_each = try(var.monitor_autoscale_settings.rule, {})
+      for_each = try(var.settings.profile.rule.scale_action, {})
       content {
         scale_action {
           direction = scale_action.value.direction
@@ -63,7 +63,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
     }
     dynamic "recurrence" {
-      for_each = try(var.monitor_autoscale_settings.rule, {})
+      for_each = try(var.settings.profile.rule.recurrence, {})
       content {
         recurrence {
           frequency = recurrence.value.frequency
@@ -78,7 +78,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 
   notification {
     dynamic "email" {
-      for_each = try(var.monitor_autoscale_settings.notification, {})
+      for_each = try(var.settings.profile.notification, {})
       content {
         email {
           send_to_subscription_administrator    = email.value.send_to_subscription_administrator
