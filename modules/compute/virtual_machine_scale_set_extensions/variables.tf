@@ -10,4 +10,9 @@ variable "managed_identities" {
 variable "storage_accounts" {
   default = {}
 }
-
+variable "keyvault_id" {
+  default = null
+}
+variable "keyvaults" {
+  default = {}
+}
