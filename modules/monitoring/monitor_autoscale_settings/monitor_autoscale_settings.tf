@@ -46,7 +46,6 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
     }
     recurrence {
-      frequency = var.settings.recurrence.value.frequency
       timezone  = var.settings.recurrence.value.timezone
       days      = var.settings.recurrence.value.days
       hours     = var.settings.recurrence.value.hours
