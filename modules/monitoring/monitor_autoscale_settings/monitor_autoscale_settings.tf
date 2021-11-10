@@ -46,16 +46,16 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       recurrence {
         frequency = recurrence.value.frequency
         timezone  = recurrence.value.timezone
-        days      = [recurrence.value.days]
-        hours     = [recurrence.value.hours]
-        minutes   = [recurrence.value.minutes]
+        days      = recurrence.value.days
+        hours     = recurrence.value.hours
+        minutes   = recurrence.value.minutes
       }
     }
     notification {
       email {
         send_to_subscription_administrator    = notification.email.value.send_to_subscription_administrator
         send_to_subscription_co_administrator = notification.email.value.send_to_subscription_co_administrator
-        custom_emails                         = [notification.email.value.custom_emails]
+        custom_emails                         = notification.email.value.custom_emails
       }
     }
   }
