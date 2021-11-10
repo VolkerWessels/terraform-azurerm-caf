@@ -15,17 +15,18 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   location            = var.location
   target_resource_id  = var.target_resource_id
 
-  dynamic "profile" {
-    for_each = var.settings.profile
-    content {
-      name = profile.value.name
+  profile {
+    name = var.settings.name
 
-      capacity {
-        default = capacity.value.default
-        minimum = capacity.value.minimum
-        maximum = capacity.value.maximum
-      }
-      rule {
+    capacity {
+      default = var.settings.capacity.value.default
+      minimum = var.settings.capacity.value.minimum
+      maximum = var.settings.capacity.value.maximum
+    }
+
+    dynamic "rule" {
+      for_each = var.settings.rule
+      content {
         metric_trigger {
           metric_name        = rule.metric_trigger.value.metric_name
           metric_resource_id = rule.metric_trigger.value.metric_resource_id
@@ -43,20 +44,20 @@ resource "azurerm_monitor_autoscale_setting" "this" {
           cooldown  = rule.scale_action.value.cooldown
         }
       }
-      recurrence {
-        frequency = recurrence.value.frequency
-        timezone  = recurrence.value.timezone
-        days      = recurrence.value.days
-        hours     = recurrence.value.hours
-        minutes   = recurrence.value.minutes
-      }
     }
-    notification {
-      email {
-        send_to_subscription_administrator    = notification.email.value.send_to_subscription_administrator
-        send_to_subscription_co_administrator = notification.email.value.send_to_subscription_co_administrator
-        custom_emails                         = notification.email.value.custom_emails
-      }
+    recurrence {
+      frequency = var.settings.recurrence.value.frequency
+      timezone  = var.settings.recurrence.value.timezone
+      days      = var.settings.recurrence.value.days
+      hours     = var.settings.recurrence.value.hours
+      minutes   = var.settings.recurrence.value.minutes
+    }
+  }
+  notification {
+    email {
+      send_to_subscription_administrator    = var.settings.notification.email.value.send_to_subscription_administrator
+      send_to_subscription_co_administrator = var.settings.notification.email.value.send_to_subscription_co_administrator
+      custom_emails                         = var.settings.notification.email.value.custom_emails
     }
   }
 }
