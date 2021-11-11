@@ -25,7 +25,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
     }
 
     dynamic "rule" {
-      for_each = var.settings.rule
+      for_each = var.settings.rules
       content {
         metric_trigger {
           metric_name        = rule.metric_trigger.value.metric_name
@@ -45,6 +45,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
         }
       }
     }
+
     recurrence {
       timezone  = var.settings.recurrence.timezone
       days      = var.settings.recurrence.days
@@ -52,6 +53,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       minutes   = var.settings.recurrence.minutes
     }
   }
+
   notification {
     email {
       send_to_subscription_administrator    = var.settings.notification.email.send_to_subscription_administrator
