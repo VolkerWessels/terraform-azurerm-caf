@@ -19,9 +19,9 @@ resource "azurerm_monitor_autoscale_setting" "this" {
     name = var.settings.name
 
     capacity {
-      default = var.settings.capacity.value.default
-      minimum = var.settings.capacity.value.minimum
-      maximum = var.settings.capacity.value.maximum
+      default = var.settings.capacity.default
+      minimum = var.settings.capacity.minimum
+      maximum = var.settings.capacity.maximum
     }
 
     dynamic "rule" {
@@ -46,17 +46,17 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
     }
     recurrence {
-      timezone  = var.settings.recurrence.value.timezone
-      days      = var.settings.recurrence.value.days
-      hours     = var.settings.recurrence.value.hours
-      minutes   = var.settings.recurrence.value.minutes
+      timezone  = var.settings.recurrence.timezone
+      days      = var.settings.recurrence.days
+      hours     = var.settings.recurrence.hours
+      minutes   = var.settings.recurrence.minutes
     }
   }
   notification {
     email {
-      send_to_subscription_administrator    = var.settings.notification.email.value.send_to_subscription_administrator
-      send_to_subscription_co_administrator = var.settings.notification.email.value.send_to_subscription_co_administrator
-      custom_emails                         = var.settings.notification.email.value.custom_emails
+      send_to_subscription_administrator    = var.settings.notification.email.send_to_subscription_administrator
+      send_to_subscription_co_administrator = var.settings.notification.email.send_to_subscription_co_administrator
+      custom_emails                         = var.settings.notification.email.custom_emails
     }
   }
 }
