@@ -28,20 +28,20 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       for_each = var.settings.rules
       content {
         metric_trigger {
-          metric_name        = rule.metric_trigger.value.metric_name
-          metric_resource_id = rule.metric_trigger.value.metric_resource_id
-          time_grain         = rule.metric_trigger.value.time_grain
-          statistic          = rule.metric_trigger.value.statistic
-          time_window        = rule.metric_trigger.value.time_window
-          time_aggregation   = rule.metric_trigger.value.time_aggregation
-          operator           = rule.metric_trigger.value.operator
-          threshold          = rule.metric_trigger.value.threshold
+          metric_name        = rules.rule.metric_trigger.value.metric_name
+          metric_resource_id = rules.rule.metric_trigger.value.metric_resource_id
+          time_grain         = rules.rule.metric_trigger.value.time_grain
+          statistic          = rules.rule.metric_trigger.value.statistic
+          time_window        = rules.rule.metric_trigger.value.time_window
+          time_aggregation   = rules.rule.metric_trigger.value.time_aggregation
+          operator           = rules.rule.metric_trigger.value.operator
+          threshold          = rules.rule.metric_trigger.value.threshold
         }
         scale_action {
-          direction = rule.scale_action.value.direction
-          type      = rule.scale_action.value.type
-          value     = rule.scale_action.value.value
-          cooldown  = rule.scale_action.value.cooldown
+          direction = rules.rule.scale_action.value.direction
+          type      = rules.rule.scale_action.value.type
+          value     = rules.rule.scale_action.value.value
+          cooldown  = rules.rule.scale_action.value.cooldown
         }
       }
     }
