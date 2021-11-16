@@ -188,6 +188,7 @@ module "example" {
     consumption_budgets      = var.consumption_budgets
     image_definitions        = var.image_definitions
     monitor_action_groups    = var.monitor_action_groups
+    monitor_autoscale_settings = var.monitor_autoscale_settings
     monitoring               = var.monitoring
     packer_managed_identity  = var.packer_managed_identity
     packer_service_principal = var.packer_service_principal

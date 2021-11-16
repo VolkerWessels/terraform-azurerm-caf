@@ -349,7 +349,7 @@ monitor_autoscale_settings = {
     name               = "profile1"
     resource_group_key = "rg1"
 
-    vmss_key = "vmss1"
+    vmss_key = "vmss2"
 
     capacity = {
       default = 1
