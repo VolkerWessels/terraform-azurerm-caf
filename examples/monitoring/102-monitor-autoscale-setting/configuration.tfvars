@@ -1,3 +1,10 @@
+global_settings = {
+  default_region = "region1"
+  regions = {
+    region1 = "southeastasia"
+  }
+}
+
 resource_groups = {
   autoscale = {
     name = "autoscale"
@@ -8,6 +15,9 @@ resource_groups = {
 monitor_autoscale_settings = {
   profile1 = {
     name = "profile1"
+    resource_group_key = "autoscale"
+
+    vmss_key = "vmss1"
 
     capacity = {
       default = 1
@@ -15,30 +25,32 @@ monitor_autoscale_settings = {
       maximum = 3
     }
 
-    rule = {
-      metric_trigger = {
-        metric_name        = "Percentage CPU"
-        metric_resource_id = "id"
-        time_grain         = "PT1M"
-        statistic          = "Average"
-        time_window        = "PT5M"
-        time_aggregation   = "Average"
-        operator           = "GreaterThan"
-        threshold          = 90
+    rules = {
+      rule1 = {
+        metric_trigger = {
+          metric_name        = "Percentage CPU"
+          metric_resource_id = "id"
+          time_grain         = "PT1M"
+          statistic          = "Average"
+          time_window        = "PT5M"
+          time_aggregation   = "Average"
+          operator           = "GreaterThan"
+          threshold          = 90
+        }
+        scale_action = {
+          direction = "Increase"
+          type      = "ChangeCount"
+          value     = "2"
+          cooldown  = "PT1M"
+        }
       }
-      scale_action = {
-        direction = "Increase"
-        type      = "ChangeCount"
-        value     = "2"
-        cooldown  = "PT1M"
-      }
-      recurrence = {
-        frequency = "Week"
-        timezone  = "Pacific Standard Time"
-        days      = ["Saturday", "Sunday"]
-        hours     = [12]
-        minutes   = [0]
-      }
+    }
+
+    recurrence = {
+      timezone  = "Pacific Standard Time"
+      days      = ["Saturday", "Sunday"]
+      hours     = [12]
+      minutes   = [0]
     }
 
     notification = {
