@@ -18,12 +18,12 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   dynamic "profile" {
     for_each = var.settings
     content {
-      name = settings.name
+      name = settings.value.name
 
       capacity {
-        default = settings.capacity.default
-        minimum = settings.capacity.minimum
-        maximum = settings.capacity.maximum
+        default = settings.value.capacity.default
+        minimum = settings.value.capacity.minimum
+        maximum = settings.value.capacity.maximum
       }
 
       dynamic "rule" {
@@ -51,19 +51,19 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       dynamic "recurrence" {
         for_each = try(var.settings.recurrence, {})
         content {
-          timezone = recurrence.timezone
-          days     = recurrence.days
-          hours    = recurrence.hours
-          minutes  = recurrence.minutes
+          timezone = recurrence.value.timezone
+          days     = recurrence.value.days
+          hours    = recurrence.value.hours
+          minutes  = recurrence.value.minutes
         }
       }
 
       dynamic "fixed_date" {
         for_each = try(var.settings.fixed_date, {})
         content {
-          timezone = try(fixed_date.timezone, "")
-          start    = fixed_date.start
-          end      = fixed_date.end
+          timezone = try(fixed_date.value.timezone, "")
+          start    = fixed_date.value.start
+          end      = fixed_date.value.end
         }
       }
 
@@ -71,9 +71,9 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 
     notification {
       email {
-        send_to_subscription_administrator    = settings.notification.email.send_to_subscription_administrator
-        send_to_subscription_co_administrator = settings.notification.email.send_to_subscription_co_administrator
-        custom_emails                         = settings.notification.email.custom_emails
+        send_to_subscription_administrator    = settings.value.notification.email.send_to_subscription_administrator
+        send_to_subscription_co_administrator = settings.value.notification.email.send_to_subscription_co_administrator
+        custom_emails                         = settings.value.notification.email.custom_emails
       }
     }
 
