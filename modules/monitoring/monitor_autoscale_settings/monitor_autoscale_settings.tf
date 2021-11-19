@@ -47,16 +47,16 @@ resource "azurerm_monitor_autoscale_setting" "this" {
     }
 
     recurrence {
-      timezone = try(var.settings.recurrence.timezone, null)
-      days     = try(var.settings.recurrence.days, null)
-      hours    = try(var.settings.recurrence.hours, null)
-      minutes  = try(var.settings.recurrence.minutes, null)
+      timezone = try(var.settings.recurrence.timezone, "")
+      days     = try(var.settings.recurrence.days, "")
+      hours    = try(var.settings.recurrence.hours, "")
+      minutes  = try(var.settings.recurrence.minutes, "")
     }
 
     fixed_date {
-      timezone = try(var.settings.fixed_date.timezone, null)
-      start    = try(var.settings.fixed_date.start, null)
-      end      = try(var.settings.fixed_date.end, null)
+      timezone = try(var.settings.fixed_date.timezone, "")
+      start    = try(var.settings.fixed_date.start, "")
+      end      = try(var.settings.fixed_date.end, "")
     }
 
   }
