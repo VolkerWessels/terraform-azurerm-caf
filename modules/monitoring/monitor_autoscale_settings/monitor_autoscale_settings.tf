@@ -69,11 +69,14 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 
     }
 
-    notification {
-      email {
-        send_to_subscription_administrator    = settings.value.notification.email.send_to_subscription_administrator
-        send_to_subscription_co_administrator = settings.value.notification.email.send_to_subscription_co_administrator
-        custom_emails                         = settings.value.notification.email.custom_emails
+    dynamic "notification" {
+      for_each = try(var.settings.notification, {})
+      content {
+        email {
+          send_to_subscription_administrator    = notification.value.email.send_to_subscription_administrator
+          send_to_subscription_co_administrator = notification.value.email.send_to_subscription_co_administrator
+          custom_emails                         = notification.value.email.custom_emails
+        }
       }
     }
 
