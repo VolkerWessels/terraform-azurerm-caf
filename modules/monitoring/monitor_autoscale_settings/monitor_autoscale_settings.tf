@@ -1,15 +1,16 @@
-resource "azurecaf_name" "this_name" {
-  name          = var.settings.name
-  prefixes      = var.global_settings.prefixes
-  resource_type = "azurerm_monitor_autoscale_setting"
-  random_length = var.global_settings.random_length
-  clean_input   = true
-  passthrough   = var.global_settings.passthrough
-  use_slug      = var.global_settings.use_slug
-}
+# resource "azurecaf_name" "this_name" {
+#   name          = var.settings.name
+#   prefixes      = var.global_settings.prefixes
+#   resource_type = "azurerm_monitor_autoscale_setting"
+#   random_length = var.global_settings.random_length
+#   clean_input   = true
+#   passthrough   = var.global_settings.passthrough
+#   use_slug      = var.global_settings.use_slug
+# }
 
 resource "azurerm_monitor_autoscale_setting" "this" {
-  name                = azurecaf_name.this_name.result
+  # name                = azurecaf_name.this_name.result
+  name                = "test"
   resource_group_name = var.resource_group_name
   location            = var.location
   target_resource_id  = var.target_resource_id
