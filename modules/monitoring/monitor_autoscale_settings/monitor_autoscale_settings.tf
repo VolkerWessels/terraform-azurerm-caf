@@ -15,70 +15,63 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   location            = var.location
   target_resource_id  = var.target_resource_id
 
-  dynamic "profile" {
-    for_each = var.settings
-    content {
-      name = settings.value.name
+  profile {
+    name = var.settings.name
 
-      capacity {
-        default = settings.value.capacity.default
-        minimum = settings.value.capacity.minimum
-        maximum = settings.value.capacity.maximum
-      }
-
-      dynamic "rule" {
-        for_each = var.settings.rules
-        content {
-          metric_trigger {
-            metric_name        = rule.value.metric_trigger.metric_name
-            metric_resource_id = try(rule.value.metric_trigger.metric_resource_id, var.target_resource_id)
-            time_grain         = rule.value.metric_trigger.time_grain
-            statistic          = rule.value.metric_trigger.statistic
-            time_window        = rule.value.metric_trigger.time_window
-            time_aggregation   = rule.value.metric_trigger.time_aggregation
-            operator           = rule.value.metric_trigger.operator
-            threshold          = rule.value.metric_trigger.threshold
-          }
-          scale_action {
-            direction = rule.value.scale_action.direction
-            type      = rule.value.scale_action.type
-            value     = rule.value.scale_action.value
-            cooldown  = rule.value.scale_action.cooldown
-          }
-        }
-      }
-
-      dynamic "recurrence" {
-        for_each = try(var.settings.recurrence, {})
-        content {
-          timezone = recurrence.value.timezone
-          days     = recurrence.value.days
-          hours    = recurrence.value.hours
-          minutes  = recurrence.value.minutes
-        }
-      }
-
-      dynamic "fixed_date" {
-        for_each = try(var.settings.fixed_date, {})
-        content {
-          timezone = try(fixed_date.value.timezone, "")
-          start    = fixed_date.value.start
-          end      = fixed_date.value.end
-        }
-      }
-
+    capacity {
+      default = var.settings.capacity.default
+      minimum = var.settings.capacity.minimum
+      maximum = var.settings.capacity.maximum
     }
 
-    dynamic "notification" {
-      for_each = try(var.settings.notification, {})
+    dynamic "rule" {
+      for_each = var.settings.rules
       content {
-        email {
-          send_to_subscription_administrator    = notification.value.email.send_to_subscription_administrator
-          send_to_subscription_co_administrator = notification.value.email.send_to_subscription_co_administrator
-          custom_emails                         = notification.value.email.custom_emails
+        metric_trigger {
+          metric_name        = rule.value.metric_trigger.metric_name
+          metric_resource_id = try(rule.value.metric_trigger.metric_resource_id, var.target_resource_id)
+          time_grain         = rule.value.metric_trigger.time_grain
+          statistic          = rule.value.metric_trigger.statistic
+          time_window        = rule.value.metric_trigger.time_window
+          time_aggregation   = rule.value.metric_trigger.time_aggregation
+          operator           = rule.value.metric_trigger.operator
+          threshold          = rule.value.metric_trigger.threshold
+        }
+        scale_action {
+          direction = rule.value.scale_action.direction
+          type      = rule.value.scale_action.type
+          value     = rule.value.scale_action.value
+          cooldown  = rule.value.scale_action.cooldown
         }
       }
     }
 
+    dynamic "recurrence" {
+      for_each = try(var.settings.recurrences, {})
+      content {
+        timezone = recurrence.timezone
+        days     = recurrence.days
+        hours    = recurrence.hours
+        minutes  = recurrence.minutes
+      }
+    }
+
+    dynamic "fixed_date" {
+      for_each = try(var.settings.fixed_dates, {})
+      content {
+        timezone = try(fixed_date.timezone, "")
+        start    = fixed_date.start
+        end      = fixed_date.end
+      }
+    }
+
+  }
+
+  notification {
+    email {
+      send_to_subscription_administrator    = var.settings.notification.email.send_to_subscription_administrator
+      send_to_subscription_co_administrator = var.settings.notification.email.send_to_subscription_co_administrator
+      custom_emails                         = var.settings.notification.email.custom_emails
+    }
   }
 }
