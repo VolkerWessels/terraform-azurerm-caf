@@ -18,12 +18,12 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   dynamic "profile" {
     for_each = var.settings
     content {
-      name = settings.value.name
+      name = profile.value.name
 
       capacity {
-        default = settings.value.capacity.default
-        minimum = settings.value.capacity.minimum
-        maximum = settings.value.capacity.maximum
+        default = profile.value.capacity.default
+        minimum = profile.value.capacity.minimum
+        maximum = profile.value.capacity.maximum
       }
 
       dynamic "rule" {
