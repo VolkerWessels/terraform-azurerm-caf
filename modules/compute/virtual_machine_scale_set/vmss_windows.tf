@@ -77,6 +77,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   zones                        = try(each.value.zones, null)
   timezone                     = try(each.value.timezone, null)
   license_type                 = try(each.value.license_type, null)
+  upgrade_mode                 = try(each.value.upgrade_mode, null)
 
   dynamic "network_interface" {
     for_each = try(var.settings.network_interfaces, {})
