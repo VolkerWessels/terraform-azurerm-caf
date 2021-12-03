@@ -8,5 +8,10 @@
             "args": ["-f", "rover_on_ssh_host.yml", "run", "-e", "ROVER_RUNNER=true", "--rm", "-w", "/tf/caf" ,"rover", "/bin/bash"],
             "overrideName": true
         }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#4D0F5D",
+        "titleBar.activeBackground": "#6B1582",
+        "titleBar.activeForeground": "#FEFBFE"
     }
 }

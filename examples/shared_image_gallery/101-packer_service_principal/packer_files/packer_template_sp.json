@@ -17,7 +17,7 @@
 
   "managed_image_resource_group_name": "${managed_image_resource_group_name}",
   "managed_image_name": "${managed_image_name}",
-
+  "user_assigned_managed_identities": ["${managed_identity}"],
   "shared_image_gallery_destination": {
     "subscription": "${subscription_id}",
     "resource_group": "${resource_group}",
