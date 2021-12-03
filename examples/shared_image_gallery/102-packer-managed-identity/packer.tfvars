@@ -23,7 +23,7 @@ packer_service_principal = {
     shared_image_gallery_destination = {
       gallery_key         = "gallery1"
       image_key           = "image3"
-      image_version       = "1.0.4"
+      image_version       = "1.0.6"
       resource_group_key  = "sig"
       replication_regions = "westeurope"
     }

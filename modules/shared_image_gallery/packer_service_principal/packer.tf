@@ -195,9 +195,6 @@ resource "azurerm_shared_image_version" "image_version" {
 // }
 
 resource "time_sleep" "time_delay_3" {
-  triggers = {
-    managed_image_id = local.managed_image_id
-  }
   create_duration = "60s"
   depends_on = [
     null_resource.delete_image
@@ -216,7 +213,7 @@ resource "null_resource" "delete_image" {
     managed_image_id = local.managed_image_id
   }
   provisioner "local-exec" {
-    when        = destroy
+    when        = create
     interpreter = ["/bin/bash"]
     command     = format("%s/destroy_image.sh", path.module)
     on_failure  = fail
