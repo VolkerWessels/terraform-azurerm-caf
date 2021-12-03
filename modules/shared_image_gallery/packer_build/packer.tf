@@ -10,7 +10,7 @@ data "azurerm_key_vault_secret" "packer_secret" {
 
 resource "local_file" "packer_template" {
   content = jsonencode(
-    {
+    {    
       client_id                         = data.azurerm_key_vault_secret.packer_client_id.value
       client_secret                     = data.azurerm_key_vault_secret.packer_secret.value
       tenant_id                         = var.tenant_id
@@ -23,11 +23,14 @@ resource "local_file" "packer_template" {
       vm_size                           = var.settings.vm_size
       managed_image_resource_group_name = var.resource_group_name
       build_resource_group_name         = var.build_resource_group_name
-      virtual_network_name              = try(var.vnet_name, "")
-      virtual_network_subnet_name       = try(var.subnet_name, "")
+      virtual_network_name              = try(var.vnet_name, null)
+      virtual_network_subnet_name       = try(var.subnet_name, null)
+      private_virtual_network_with_public_ip = try(var.settings.private_virtual_network_with_public_ip, null)
+      managed_image_storage_account_type = try(var.settings.managed_image_storage_account_type, null)
+      storage_account_type              = try(var.settings.storage_account_type, null)
       managed_image_name                = var.settings.managed_image_name
       ansible_playbook_path             = var.settings.ansible_playbook_path
-      managed_identity                  = local.managed_identity
+      managed_identity                  = [local.managed_identity]
       azure_tags                        = local.tags
       //shared_image_gallery destination values. If publishing to a different Subscription, change the following arguments and supply the values as variables
       subscription        = var.subscription
@@ -36,6 +39,11 @@ resource "local_file" "packer_template" {
       image_name          = var.image_name
       image_version       = var.settings.shared_image_gallery_destination.image_version
       replication_regions = var.settings.shared_image_gallery_destination.replication_regions
+      //source shared_image_gallery values
+      source_subscription = try(var.settings.source_subscription, null)
+      source_resource_group = try(var.settings.source_resource_group, null)
+      source_gallery_name = try(var.settings.source_gallery_name, null)
+      source_image_version = try(var.settings.source_image_version, null)
     }
   )
   filename             = var.settings.packer_template_filepath
