@@ -21,7 +21,14 @@ packer_build = {
     managed_image_storage_account_type     = "Standard_LRS" #storage type used during build. Premium_LRS for faster builds
     storage_account_type                   = "Standard_LRS" #storage type in shared image gallery
     tag_packer_resources                   = "true"         #apply tags to the Azure resources created by Packer
-    
+
+
+#   variable "source_subscription" {}
+# variable "source_resource_group" {}
+# variable "source_gallery_name" {}
+# variable "source_image_version" {}
+
+
     tags = {
       mybuild = "linux"
     }

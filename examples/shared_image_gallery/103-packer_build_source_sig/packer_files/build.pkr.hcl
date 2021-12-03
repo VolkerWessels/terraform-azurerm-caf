@@ -12,11 +12,17 @@ source "azure-arm" "mybuild" {
   private_virtual_network_with_public_ip = var.private_virtual_network_with_public_ip
   subscription_id                        = var.subscription_id
   tenant_id                              = var.tenant_id
-  user_assigned_managed_identities       = var.managed_identity
+  user_assigned_managed_identities       = [var.managed_identity]
   virtual_network_name                   = var.virtual_network_name
   virtual_network_subnet_name            = var.virtual_network_subnet_name
   vm_size                                = var.vm_size
   azure_tags                             = local.azure_tags
+  shared_image_gallery {
+    subscription = var.source_subscription
+    resource_group = var.source_resource_group
+    gallery_name = var.source_gallery_name
+    image_version = var.source_image_version
+  }
 }
 
 build {
@@ -28,40 +34,27 @@ build {
 
 }
 
+
 locals {
  azure_tags = try(convert(var.azure_tags, map(string)), null)
 }
 
-variable "subscription_id" {}
-variable "tenant_id"{}
 variable "client_id" {}
-variable "azure_tags" {
-  default = null
-}
+variable "ansible_playbook_path" {}
+variable "azure_tags" {}
 variable "location" {}
 variable "client_secret" {}
-variable "build_resource_group_name" {
-  default = null
-}
-variable "image_offer" {
-  default = null
-}
-variable "image_publisher" {
-  default = null
-}
-variable "image_sku" {
-  default = null
-}
-variable "ansible_playbook_path" {
-  default = null
-}
+variable "build_resource_group_name" {}
+variable "image_offer" {}
+variable "image_publisher" {}
+variable "image_sku" {}
 variable "managed_image_name" {}
 variable "managed_image_resource_group_name" {}
 variable "managed_image_storage_account_type" {}
 variable "os_type" {}
-variable "private_virtual_network_with_public_ip" {
-  default - null
-}
+variable "private_virtual_network_with_public_ip" {}
+variable "subscription_id" {}
+variable "tenant_id"{}
 variable "managed_identity" {
   default = null
 }
