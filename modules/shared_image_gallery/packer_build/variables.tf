@@ -1,6 +1,6 @@
 variable "resource_group_name" {}
 variable "build_resource_group_name" {
-    default = {}
+  default = {}
 }
 variable "location" {}
 variable "client_config" {}
