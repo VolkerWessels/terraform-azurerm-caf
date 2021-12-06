@@ -420,10 +420,6 @@ variable "packer_build" {
   default = {}
 }
 
-variable "packer_managed_identity" {
-  default = {}
-}
-
 variable "azuread_api_permissions" {
   default = {}
 }

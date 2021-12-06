@@ -27,13 +27,19 @@ source "azure-arm" "mybuild" {
     subscription         = var.subscription
     storage_account_type = var.storage_account_type
   }
+  communicator = "winrm"
+  winrm_use_ssl = true
+  winrm_insecure: true
+  winrm_timeout= "5m"
+  winrm_username= "packer"
+  #async_resourcegroup_delete": "true",
 }
 
 build {
   sources = ["source.azure-arm.mybuild"]
 
-  provisioner "ansible" {
-    playbook_file = var.ansible_playbook_path
+  provisioner "powershell" {
+    script = "finalize.ps1"
   }
 
 }
