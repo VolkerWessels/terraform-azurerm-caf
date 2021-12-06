@@ -33,7 +33,7 @@ build {
   sources = ["source.azure-arm.mybuild"]
 
   provisioner "ansible" {
-    playbook_file = var.ansible_playbook_path
+    playbook_file = "${var.packer_working_dir}${var.build_script}"
   }
 
 }
@@ -50,6 +50,7 @@ variable "managed_image_name" {}
 variable "managed_image_resource_group_name" {}
 variable "managed_image_storage_account_type" {}
 variable "os_type" {}
+variable "packer_working_dir" {}
 variable "azure_tags" {
   default = null
 }
@@ -66,7 +67,7 @@ variable "image_publisher" {
 variable "image_sku" {
   default = null
 }
-variable "ansible_playbook_path" {
+variable "build_script" {
   default = null
 }
 variable "private_virtual_network_with_public_ip" {

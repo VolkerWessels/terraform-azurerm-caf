@@ -23,10 +23,10 @@ packer_build = {
     tag_packer_resources                   = "true"         #apply tags to the Azure resources created by Packer
 
 
-#   variable "source_subscription" {}
-# variable "source_resource_group" {}
-# variable "source_gallery_name" {}
-# variable "source_image_version" {}
+    #   variable "source_subscription" {}
+    # variable "source_resource_group" {}
+    # variable "source_gallery_name" {}
+    # variable "source_image_version" {}
 
 
     tags = {
@@ -39,5 +39,5 @@ packer_build = {
       resource_group_key  = "sig"
       replication_regions = "westeurope"
     }
-  }  
+  }
 }

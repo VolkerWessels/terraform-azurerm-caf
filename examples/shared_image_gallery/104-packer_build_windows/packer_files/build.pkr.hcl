@@ -39,7 +39,7 @@ build {
   sources = ["source.azure-arm.mybuild"]
 
   provisioner "powershell" {
-    script = "finalize.ps1"
+    script = "${var.packer_working_dir}finalize.ps1"
   }
 
 }
@@ -56,6 +56,7 @@ variable "managed_image_name" {}
 variable "managed_image_resource_group_name" {}
 variable "managed_image_storage_account_type" {}
 variable "os_type" {}
+variable "packer_working_dir" {}
 variable "azure_tags" {
   default = null
 }
