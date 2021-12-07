@@ -19,12 +19,17 @@ resource_groups = {
 
 shared_image_galleries = {
   gallery1 = {
-    name               = "test1"
+    name               = "source"
     resource_group_key = "sig"
     description        = " "
   }
-
+  gallery2 = {
+    name               = "test"
+    resource_group_key = "sig"
+    description        = " "
+  }
 }
+
 
 image_definitions = {
   image1 = {
@@ -35,6 +40,15 @@ image_definitions = {
     publisher          = "MyCompany"
     offer              = "WebServer"
     sku                = "2020.1"
+  }
+  image2 = {
+    name               = "image2"
+    gallery_key        = "gallery2"
+    resource_group_key = "sig"
+    os_type            = "Linux"
+    publisher          = "MyCompany"
+    offer              = "AdvancedWebServer"
+    sku                = "2020.2"
   }
 }
 

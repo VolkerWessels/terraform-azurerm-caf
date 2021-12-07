@@ -12,9 +12,6 @@ resource_groups = {
   packer = {
     name = "packer"
   }
-  build = {
-    name = "build"
-  }
 }
 
 shared_image_galleries = {
@@ -35,28 +32,5 @@ image_definitions = {
     publisher          = "MyCompany"
     offer              = "WebServer"
     sku                = "2020.1"
-  }
-}
-
-managed_identities = {
-  example_mi = {
-    name               = "example_mi"
-    resource_group_key = "sig"
-  }
-}
-
-vnets = {
-  vnet_region1 = {
-    resource_group_key = "sig"
-    vnet = {
-      name          = "buildvnet"
-      address_space = ["10.100.100.0/24"]
-    }
-    subnets = {
-      buildsubnet = {
-        name = "buildsubnet"
-        cidr = ["10.100.100.0/29"]
-      }
-    }
   }
 }

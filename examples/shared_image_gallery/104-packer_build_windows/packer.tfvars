@@ -1,6 +1,6 @@
 packer_build = {
   build1 = {
-    packer_working_dir   = "./shared_image_gallery/102-packer_build_linux/packer_files/"
+    packer_working_dir   = "./shared_image_gallery/104-packer_build_windows/packer_files/"
     packer_template_file = "build.pkr.hcl"
     packer_var_file      = "packer.vars.json"
     secret_prefix        = "packer-client"

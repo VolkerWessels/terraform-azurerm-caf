@@ -109,7 +109,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
     }
   }
 
-  source_image_id = try(each.value.custom_image_id, var.custom_image_ids[each.value.lz_key][each.value.custom_image_key].id, null)
+  source_image_id = try(try(each.value.custom_image_id, var.custom_image_ids[var.client_config.landingzone_key][each.value.custom_image_key].id, var.custom_image_ids[each.value.lz_key][each.value.custom_image_key].id), null)
+
+   # managed_local_identity       = try(var.managed_identities[var.client_config.landingzone_key][var.settings.managed_identity_key].id, "")
+  #managed_remote_identity      = try(var.managed_identities[var.settings.lz_key][var.settings.managed_identity_key].id, "")
 
   dynamic "additional_capabilities" {
     for_each = try(each.value.additional_capabilities, false) == false ? [] : [1]

@@ -16,6 +16,7 @@ module "virtual_machines" {
   application_security_groups = local.combined_objects_application_security_groups
   availability_sets           = local.combined_objects_availability_sets
   client_config               = local.client_config
+  custom_image_ids            = local.combined_objects_image_definitions
   dedicated_hosts             = local.combined_objects_dedicated_hosts
   diagnostics                 = local.combined_diagnostics
   disk_encryption_sets        = local.combined_objects_disk_encryption_sets

@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    windows-update = {
+      version = "0.14.0"
+      source = "github.com/rgl/windows-update"
+    }
+  }
+}
+
 source "azure-arm" "mybuild" {
   build_resource_group_name                        = var.build_resource_group_name
   client_id                                        = var.client_id
@@ -29,7 +38,7 @@ source "azure-arm" "mybuild" {
   }
   communicator = "winrm"
   winrm_use_ssl = true
-  winrm_insecure: true
+  winrm_insecure= true
   winrm_timeout= "5m"
   winrm_username= "packer"
   #async_resourcegroup_delete": "true",
@@ -39,9 +48,21 @@ build {
   sources = ["source.azure-arm.mybuild"]
 
   provisioner "powershell" {
+    inline = [
+      "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+    ]
+  }
+  provisioner "powershell" {
+    inline = [
+      "choco install az.powershell -y -r"
+    ]
+  }
+  provisioner "windows-update" {
+    search_criteria = "IsInstalled=0"
+  }
+  provisioner "powershell" {
     script = "${var.packer_working_dir}finalize.ps1"
   }
-
 }
 
 locals {
@@ -57,6 +78,9 @@ variable "managed_image_resource_group_name" {}
 variable "managed_image_storage_account_type" {}
 variable "os_type" {}
 variable "packer_working_dir" {}
+variable "build_script" {
+  default = null
+}
 variable "azure_tags" {
   default = null
 }
