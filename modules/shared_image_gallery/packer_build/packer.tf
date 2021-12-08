@@ -41,7 +41,7 @@ resource "local_file" "packer_var_file" {
       replication_regions                              = var.settings.shared_image_gallery_destination.replication_regions
       shared_gallery_image_version_exclude_from_latest = try(var.settings.shared_gallery_image_version_exclude_from_latest, null)
       packer_working_dir                               = var.settings.packer_working_dir
-      # //source shared_image_gallery values
+      //source shared_image_gallery values
       # source_subscription   = try(var.settings.source_subscription, null)
       # source_resource_group = try(var.settings.source_resource_group, null)
       # source_gallery_name   = try(var.settings.source_gallery_name, null)
@@ -58,7 +58,7 @@ resource "null_resource" "create_image" {
     build_trigger = local.build_trigger
   }
   provisioner "local-exec" {
-    command = "packer build -force -var-file ${local.packer_var_filepath} ${local.packer_template_filepath}"
+    command = "packer init ${local.packer_template_filepath} && packer build -force -var-file ${local.packer_var_filepath} ${local.packer_template_filepath}"
   }
   depends_on = [
     local_file.packer_var_file
@@ -105,23 +105,23 @@ resource "time_sleep" "time_delay_3" {
   ]
 }
 
-resource "null_resource" "exclude_from_latest" {
-  triggers = {
-    exclude_from_latest = var.settings.shared_gallery_image_version_exclude_from_latest
-  }
-  provisioner "local-exec" {
-    command = format("az sig image-version update --resource-group %s --gallery-name %s --gallery-image-definition %s --gallery-image-version %s --set publishingProfile.excludeFromLatest=%t",
-      var.resource_group_name, var.gallery_name, var.image_name, local.image_version, var.settings.shared_gallery_image_version_exclude_from_latest
-    )
-  }
-}
+# resource "null_resource" "exclude_from_latest" {
+#   triggers = {
+#     exclude_from_latest = var.settings.shared_gallery_image_version_exclude_from_latest
+#   }
+#   provisioner "local-exec" {
+#     command = format("az sig image-version update --resource-group %s --gallery-name %s --gallery-image-definition %s --gallery-image-version %s --set publishingProfile.excludeFromLatest=%t ||true",
+#       var.resource_group_name, var.gallery_name, var.image_name, local.image_version, var.settings.shared_gallery_image_version_exclude_from_latest
+#     )
+#   }
+# }
 
 resource "null_resource" "clean_old_versions" {
   triggers = {
     build_trigger = local.build_trigger
   }
   provisioner "local-exec" {
-    command = format("versions=$(az sig image-version list --resource-group %s --gallery-name %s --gallery-image-definition %s --query 'sort_by([].{name:name},&name) | [:-%d]' -o tsv) && az sig image-version delete --resource-group %s --gallery-name %s --gallery-image-definition %s --gallery-image-version $versions",
+    command = format("versions=$(az sig image-version list --resource-group %s --gallery-name %s --gallery-image-definition %s --query 'sort_by([].{name:name},&name) | [:-%d]' -o tsv)  && if [[ $(expr length $versions) -gt 0 ]]; then az sig image-version delete --resource-group %s --gallery-name %s --gallery-image-definition %s --gallery-image-version $versions; fi",
       var.resource_group_name, var.gallery_name, var.image_name, var.settings.keep_versions, var.resource_group_name, var.gallery_name, var.image_name
     )
   }
@@ -144,7 +144,6 @@ data "azurerm_platform_image" "source" {
 #   image_name = var.settings.source
 #    source_gallery_name
 # }
-
 
 locals {
   packer_template_filepath     = "${var.settings.packer_working_dir}${var.settings.packer_template_file}"
