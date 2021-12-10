@@ -140,7 +140,18 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     }
   }
 
-  source_image_id = try(each.value.source_image_reference, null) == null ? "${try(each.value.custom_image_id, var.image_definitions[var.client_config.landingzone_key][each.value.custom_image_key].id, var.image_definitions[each.value.custom_image_lz_key][each.value.custom_image_key].id)}/versions/${try(each.value.custom_image_version, "latest")}" : null
+  provisioner "local-exec" {
+    command = "echo $VARIABLE1 > debug_vmss.json; echo $VARIABLE2 >> debug_vmss.json; cat debug_vmss.json"
+    environment = {
+      VARIABLE1 = jsonencode(var.image_definitions)
+      VARIABLE2 = jsonencode(var.managed_identities)
+    } 
+  }
+
+  source_image_id = try(each.value.source_image_reference, null) == null ? format("%s%s",
+    try(each.value.custom_image_id, try(var.image_definitions[var.client_config.landingzone_key][each.value.custom_image_key].id, 
+    var.image_definitions[each.value.custom_image_lz_key][each.value.custom_image_key].id)), 
+    try("/versions/${each.value.custom_image_version}", "")) : null
 
   dynamic "plan" {
     for_each = try(each.value.plan, null) != null ? [1] : []

@@ -7,7 +7,6 @@ terraform {
 
 }
 
-
 locals {
   os_type = lower(var.settings.os_type)
   # Generate SSH Keys only if a public one is not provided

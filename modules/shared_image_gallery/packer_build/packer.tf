@@ -63,7 +63,7 @@ resource "null_resource" "create_image" {
   }
   depends_on = [
     local_file.packer_var_file
-  ]
+    ]
 }
 
 data "external" "image_versions" { # data source errors if no versions exist
@@ -132,5 +132,5 @@ locals {
   managed_local_identity  = try(var.managed_identities[var.client_config.landingzone_key][var.settings.managed_identity_key].id, "")
   managed_remote_identity = try(var.managed_identities[var.settings.lz_key][var.settings.managed_identity_key].id, "")
   provided_identity       = try(var.settings.managed_identity_id, "")
-  managed_identity        = try(merge(local.managed_local_identity, local.managed_remote_identity, local.provided_identity), [])
+  managed_identity        = try(coalesce(local.managed_local_identity, local.managed_remote_identity, local.provided_identity), "")
 }
