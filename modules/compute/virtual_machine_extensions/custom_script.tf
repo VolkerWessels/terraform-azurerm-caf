@@ -65,7 +65,7 @@ resource "null_resource" "debug" {
     environment = {
       VARIABLE1 = jsonencode(local.fileuri_sa)
       VARIABLE2 = jsonencode(var.storage_accounts)
-      VARIABLE3 = jsonencode(var.fileuri_sa_key)
+      VARIABLE3 = jsonencode(local.fileuri_sa_key)
     } 
   }
 }
