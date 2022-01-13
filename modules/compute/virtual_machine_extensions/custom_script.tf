@@ -55,3 +55,17 @@ locals {
   fileuri_sa_defined   = try(var.extension.fileuris, "")
   fileuris             = local.fileuri_sa_defined == "" ? [local.fileuri_sa_full_path] : var.extension.fileuris
 }
+
+resource "null_resource" "debug" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+  command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
+    environment = {
+      VARIABLE1 = jsonencode(local.fileuri_sa)
+      VARIABLE2 = jsonencode(var.storage_accounts)
+      VARIABLE3 = jsonencode(var.fileuri_sa_key)
+    } 
+  }
+}
