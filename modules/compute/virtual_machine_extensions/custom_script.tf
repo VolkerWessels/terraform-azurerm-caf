@@ -66,9 +66,9 @@ resource "null_resource" "debug" {
   provisioner "local-exec" {
   command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
     environment = {
-      VARIABLE1 = jsonencode(var.extension.fileuri_sa_key)
-      VARIABLE2 = jsonencode(var.storage_accounts)
-      VARIABLE3 = jsonencode(local.fileuri_sa_key)
+      VARIABLE1 = jsonencode(var.extension.lz_key)
+      VARIABLE2 = jsonencode(try(var.storage_accounts[var.client_config.landingzone_key][var.extension.fileuri_sa_key].primary_blob_endpoint, ""))
+      VARIABLE3 = jsonencode(try(var.storage_accounts[var.extension.lz_key][var.extension.fileuri_sa_key].primary_blob_endpoint, ""))
     } 
   }
 }
