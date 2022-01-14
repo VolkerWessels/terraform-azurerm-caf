@@ -49,10 +49,11 @@ locals {
   # fileuris
   fileuri_sa_key  = try(var.extension.fileuri_sa_key, "")
   fileuri_sa_path = try(var.extension.fileuri_sa_path, "")
-  fileuri_sa = local.fileuri_sa_key != "" ? try(
-    try(var.storage_accounts[var.client_config.landingzone_key][local.fileuri_sa_key].primary_blob_endpoint, null),
-    try(var.storage_accounts[var.extension.lz_key][local.fileuri_sa_key].primary_blob_endpoint, null)
-  ) : ""
+  fileuri_sa = "https://sscnonprdstsa1devfxnll.blob.core.windows.net/"
+  # fileuri_sa = local.fileuri_sa_key != "" ? try(
+  #   try(var.storage_accounts[var.client_config.landingzone_key][var.extension.fileuri_sa_key].primary_blob_endpoint, null),
+  #   try(var.storage_accounts[var.extension.lz_key][var.extension.fileuri_sa_key].primary_blob_endpoint, null)
+  # ) : ""
   fileuri_sa_full_path = "${local.fileuri_sa}${local.fileuri_sa_path}"
   fileuri_sa_defined   = try(var.extension.fileuris, "")
   fileuris             = local.fileuri_sa_defined == "" ? [local.fileuri_sa_full_path] : var.extension.fileuris
@@ -65,7 +66,7 @@ resource "null_resource" "debug" {
   provisioner "local-exec" {
   command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
     environment = {
-      VARIABLE1 = jsonencode(local.fileuri_sa)
+      VARIABLE1 = jsonencode(var.extension.fileuri_sa_key)
       VARIABLE2 = jsonencode(var.storage_accounts)
       VARIABLE3 = jsonencode(local.fileuri_sa_key)
     } 
