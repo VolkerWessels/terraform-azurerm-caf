@@ -27,7 +27,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "rule" {
-        for_each = profile.value.rules
+        for_each = try(profile.value.rules, {}) == {} ? [0] : [1]
         content {
           metric_trigger {
             metric_name              = rule.value.metric_trigger.metric_name
