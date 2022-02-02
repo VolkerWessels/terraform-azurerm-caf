@@ -27,7 +27,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "rule" {
-        for_each = try(profile.value.rules, {}) == {} ? [0] : [1]
+        for_each = try(profile.value.rules, {}) == {} ? [] : [1]
         content {
           metric_trigger {
             metric_name              = rule.value.metric_trigger.metric_name
@@ -59,7 +59,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "recurrence" {
-        for_each = try(var.settings.profiles[profile.key].recurrence, {}) != {} ? [1] : []
+        for_each = try(var.settings.profiles[profile.key].recurrence, {}) == {} ? [] : [1]
         content {
           timezone = var.settings.profiles[profile.key].recurrence.timezone
           days     = var.settings.profiles[profile.key].recurrence.days
@@ -69,7 +69,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "fixed_date" {
-        for_each = try(var.settings.profiles[profile.key].fixed_date, {}) != {} ? [1] : []
+        for_each = try(var.settings.profiles[profile.key].fixed_date, {}) == {} ? [] : [1]
         content {
           timezone = try(var.settings.profiles[profile.key].fixed_date.timezone, null)
           start    = var.settings.profiles[profile.key].fixed_date.start
@@ -85,7 +85,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
     content {
 
       dynamic "email" {
-        for_each = try(var.settings.notification.email, {}) != {} ? [1] : []
+        for_each = try(var.settings.notification.email, {}) == {} ? [] : [1]
         content {
           send_to_subscription_administrator    = try(var.settings.notification.email.send_to_subscription_administrator, null)
           send_to_subscription_co_administrator = try(var.settings.notification.email.send_to_subscription_co_administrator, null)
