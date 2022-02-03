@@ -27,7 +27,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "rule" {
-        for_each = try(profile.value.rules, {}) == {} ? [] : [1]
+        for_each = try(profile.value.rules, {}) == "rules" ? [profile.value.rules] : []
         content {
           metric_trigger {
             metric_name              = rule.value.metric_trigger.metric_name
@@ -41,7 +41,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
             metric_namespace         = try(rule.value.metric_trigger.metric_namespace, null)
             divide_by_instance_count = try(rule.value.metric_trigger.divide_by_instance_count, null)
             dynamic "dimensions" {
-              for_each = try(rule.value.metric_trigger.dimensions, {})
+              for_each = try(rule.value.metric_trigger.dimensions, {}) == {} ? [] : [1]
               content {
                 name     = dimensions.value.name
                 operator = dimensions.value.operator
@@ -81,7 +81,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   }
 
   dynamic "notification" {
-    for_each = try(var.settings.notification)
+    for_each = try(var.settings.notification, {}) == {} ? [] : [1]
     content {
 
       dynamic "email" {
@@ -94,7 +94,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       }
 
       dynamic "webhook" {
-        for_each = try(var.settings.profiles.notification.webhook, {})
+        for_each = try(var.settings.profiles.notification.webhook, {}) == {} ? [] : [1]
         content {
           service_uri = var.settings.profiles.notification.webhook.service.uri
           properties  = try(var.settings.profiles.notification.webhook.properties, null)
