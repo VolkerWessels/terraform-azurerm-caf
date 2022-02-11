@@ -24,8 +24,29 @@ resource "azurerm_virtual_machine_scale_set_extension" "keyvault" {
       "observedCertificates" : try(var.extension.secretsManagementSettings.observedCertificates, "")
     }
     "authenticationSettings" : {
-      "msiEndpoint" : try(var.extension.authenticationSettings.msiEndpoint, "http://169.254.169.254/metadata/identity")
-      "msiClientId" : try(var.extension.authenticationSettings.msiClientId, "")
+      "msiEndpoint" : try(var.msiEndpoint, "http://169.254.169.254/metadata/identity")
+      "msiClientId" : try(var.msiClientId, local.system_assigned_id, local.user_assigned_id, "")
     }
   })
+}
+
+locals {
+  identity_type           = try(var.extension.identity_type, "") # userassigned, systemassigned or null
+  managed_local_identity  = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].principal_id, "")
+  managed_remote_identity = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].principal_id, "")
+  provided_identity       = try(var.extension.managed_identity_id, "")
+  managed_identity        = try(coalesce(local.managed_local_identity, local.managed_remote_identity, local.provided_identity), "")
+
+  map_system_assigned = {
+    managedIdentity = {}
+  }
+
+  map_user_assigned = {
+    managedIdentity = {
+      objectid = local.managed_identity
+    }
+  }
+
+  system_assigned_id = local.identity_type == "SystemAssigned" ? local.map_system_assigned : null
+  user_assigned_id   = local.identity_type == "UserAssigned" ? local.map_user_assigned : null
 }
