@@ -34,7 +34,7 @@ resource "azurerm_virtual_machine_extension" "diagnostics" {
 
 locals {
   microsoft_azure_diagnostics = {
-    template_path = var.extension_name == "microsoft_azure_diagnostics" ? fileexists(var.settings.xml_diagnostics_file) ? var.settings.xml_diagnostics_file : format("%s/%s", var.settings.var_folder_path, var.settings.xml_diagnostics_file) : null
+    template_path = var.extension_name == "microsoft_azure_diagnostics" ? fileexists(var.extension.xml_diagnostics_file) ? var.extension.xml_diagnostics_file : format("%s/%s", var.extension.var_folder_path, var.settings.xml_diagnostics_file) : null
   }
 }
 
