@@ -1,5 +1,4 @@
 locals {
-  identity_type           = try(var.extension.identity_type, "") # userassigned, systemassigned or null
   managed_local_identity  = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].principal_id, "")
   managed_remote_identity = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].principal_id, "")
   provided_identity       = try(var.extension.managed_identity_id, "")

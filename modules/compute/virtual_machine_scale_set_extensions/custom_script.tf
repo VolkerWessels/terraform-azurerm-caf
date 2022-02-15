@@ -37,6 +37,7 @@ locals {
     commandToExecute = try(var.extension.commandtoexecute, "")
   }
 
+  identity_type      = try(var.extension.identity_type, "") # userassigned, systemassigned or null
   system_assigned_id = local.identity_type == "SystemAssigned" ? local.map_system_assigned : null
   user_assigned_id   = local.identity_type == "UserAssigned" ? local.map_user_assigned : null
 
