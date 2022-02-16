@@ -14,7 +14,6 @@ module "vmss_extension_microsoft_azure_domainjoin" {
   keyvaults                    = tomap({ (var.landingzone.key) = module.example.keyvaults })
 }
 
-
 module "vmss_extension_custom_scriptextension" {
   source     = "../modules/compute/virtual_machine_scale_set_extensions"
   depends_on = [module.example]
@@ -34,10 +33,10 @@ module "vmss_extension_custom_scriptextension" {
 }
 
 module "vmss_extension_keyvault_extension" {
-  source     = "../modules/compute/virtual_machine_scale_set_extensions"
+  #source     = "../modules/compute/virtual_machine_scale_set_extensions"
   # version = "5.5.1"
 
-  #source = "git::https://github.com/VolkerWessels/terraform-azurerm-caf.git//modules/compute/virtual_machine_scale_set_extensions?ref=vw-combined"
+  source = "git::https://github.com/VolkerWessels/terraform-azurerm-caf.git//modules/compute/virtual_machine_scale_set_extensions?ref=vw-combined"
 
   depends_on = [module.example]
 
