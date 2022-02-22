@@ -17,14 +17,14 @@ resource "azurerm_virtual_machine_scale_set_extension" "keyvault" {
   settings = jsonencode({
     "secretsManagementSettings" : {
       "pollingIntervalInS" : try(var.extension.secretsManagementSettings.pollingIntervalInS, "3600")
-      "certificateStoreName" : try(var.extension.secretsManagementSettings.certificateStoreName, "")
+      "certificateStoreName" : try(var.extension.secretsManagementSettings.certificateStoreName)
       "linkOnRenewal" : try(var.extension.secretsManagementSettings.linkOnRenewal, false)
       "certificateStoreLocation" : try(var.extension.secretsManagementSettings.certificateStoreLocation, "")
       "requireInitialSync" : try(var.extension.secretsManagementSettings.requireInitialSync, true)
       "observedCertificates" : try(var.extension.secretsManagementSettings.observedCertificates, "")
     }
     "authenticationSettings" : {
-      "msiEndpoint" : try(var.msiEndpoint, "http://169.254.169.254/metadata/identity")
+      "msiEndpoint" : try(var.extension.authenticationSettings.msiEndpoint, "http://169.254.169.254/metadata/identity")
       "msiClientId" : try(var.extension.authenticationSettings.msiClientId, local.managed_identity)
     }
   })
