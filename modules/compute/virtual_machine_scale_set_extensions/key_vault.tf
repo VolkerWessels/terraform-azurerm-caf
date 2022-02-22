@@ -25,7 +25,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "keyvault" {
     }
     "authenticationSettings" : {
       "msiEndpoint" : try(var.msiEndpoint, "http://169.254.169.254/metadata/identity")
-      "msiClientId" : try(local.system_assigned_id, local.user_assigned_id, var.msiClientId, "")
+      "msiClientId" : try(var.extension.authenticationSettings.msiClientId, local.managed_identity)
     }
   })
 }
