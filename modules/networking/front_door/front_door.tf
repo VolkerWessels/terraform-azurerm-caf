@@ -84,6 +84,7 @@ resource "azurerm_frontdoor" "frontdoor" {
       path                = backend_pool_health_probe.value.path
       protocol            = backend_pool_health_probe.value.protocol
       interval_in_seconds = backend_pool_health_probe.value.interval_in_seconds
+      probe_method        = backend_pool_health_probe.value.probe_method
     }
   }
 
