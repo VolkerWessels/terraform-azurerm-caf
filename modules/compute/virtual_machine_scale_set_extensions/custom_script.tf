@@ -14,7 +14,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
       "timestamp" : try(toint(var.extension.timestamp), 12345678)
     }
   )
-
+  provision_after_extensions = try(var.extension.provision_after_extensions, null)
   protected_settings = jsonencode(local.protected_settings)
 }
 
