@@ -71,6 +71,7 @@ module "packer_build" {
   managed_identities        = local.combined_objects_managed_identities
   vnet_name                 = try(try(local.combined_objects_networking[each.value.lz_net_key][each.value.vnet_key].name, local.combined_objects_networking[local.client_config.landingzone_key][each.value.vnet_key].name), "")
   subnet_name               = try(lookup(each.value, "lz_net_key", null) == null ? local.combined_objects_networking[local.client_config.landingzone_key][each.value.vnet_key].subnets[each.value.subnet_key].name : local.combined_objects_networking[each.value.lz_net_key][each.value.vnet_key].subnets[each.value.subnet_key].name, "")
+  vnet_resource_group_name  = try(lookup(each.value, "lz_net_key", null) == null ? local.combined_objects_networking[local.client_config.landingzone_key][each.value.vnet_key].subnets[each.value.subnet_key].resource_group_name : local.combined_objects_networking[each.value.lz_net_key][each.value.vnet_key].subnets[each.value.subnet_key].resource_group_name, "")
   settings                  = each.value
   base_tags                 = try(local.global_settings.inherit_tags, false) ? local.resource_groups[each.value.resource_group_key].tags : {}
   depends_on = [

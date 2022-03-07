@@ -24,6 +24,7 @@ resource "local_file" "packer_var_file" {
       managed_image_resource_group_name                = var.resource_group_name
       build_resource_group_name                        = var.build_resource_group_name
       virtual_network_name                             = try(var.vnet_name, null)
+      virtual_network_resource_group_name              = try(var.vnet_resource_group_name, null)
       virtual_network_subnet_name                      = try(var.subnet_name, null)
       private_virtual_network_with_public_ip           = try(var.settings.private_virtual_network_with_public_ip, null)
       managed_image_storage_account_type               = try(var.settings.managed_image_storage_account_type, null)

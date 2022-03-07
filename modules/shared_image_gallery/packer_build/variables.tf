@@ -21,5 +21,8 @@ variable "vnet_name" {
 variable "subnet_name" {
   default = {}
 }
+variable "vnet_resource_group_name" {
+  default = {}
+}
 
 
