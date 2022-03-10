@@ -113,13 +113,13 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     write_accelerator_enabled = try(each.value.os_disk.write_accelerator_enabled, false)
 
     dynamic "diff_disk_settings" {
-        for_each = try(var.settings.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
+        for_each = try(each.value.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
         content {
-          option = try(var.settings.os_disk.diff_disk_settings.option, "Local")
+          option = try(each.value.os_disk.diff_disk_settings.option, "Local")
         } 
     }
   }
-  
+
   dynamic "data_disk" {
     for_each = try(var.settings.data_disks, {})
 
