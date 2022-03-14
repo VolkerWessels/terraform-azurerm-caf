@@ -19,11 +19,21 @@ resource "azurerm_virtual_machine_scale_set_extension" "HealthExtension" {
 
 locals {
   application_health_extension_type = var.virtual_machine_scale_set_os_type == "linux" ? "ApplicationHealthLinux" : "ApplicationHealthWindows"
-  health_extension_requestPath = try(var.extension.settings.requestPath, null)
-  health_extension_protocol = try(var.extension.settings.protocol, "http")
-  health_extension_port = try(var.extension.settings.port, 80)
-  health_extension_intervalInSeconds = try(var.extension.settings.intervalInSeconds, 5.0)
-  health_extension_numberofProbes = try(var.extension.settings.numberOfProbes, 1.0)
-  health_extension_settings = tolist([local.health_extension_protocol, local.health_extension_port, local.health_extension_requestPath, local.health_extension_intervalInSeconds, local.health_extension_numberofProbes])
+  map_health_extension_requestPath = try(var.extension.settings.requestPath, null) == null ? null : {
+    requestpath = var.extension.settings.requestPath
+  }
+  map_health_extension_protocol = {
+    protocol = try(var.extension.settings.protocol, "http")
+  }
+  map_health_extension_port = {
+    port = try(var.extension.settings.port, 80)
+  }
+  map_health_extension_intervalInSeconds = {
+    intervalInSeconds = try(var.extension.settings.intervalInSeconds, 5.0)
+  }
+  map_health_extension_numberofProbes = {
+    numberOfProbes = try(var.extension.settings.numberOfProbes, 1.0)
+  }
+  health_extension_settings = merge([local.health_extension_protocol, local.health_extension_port, local.health_extension_requestPath, local.health_extension_intervalInSeconds, local.health_extension_numberofProbes])
 }
 
