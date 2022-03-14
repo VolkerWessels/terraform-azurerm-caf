@@ -14,16 +14,16 @@ resource "azurerm_virtual_machine_scale_set_extension" "HealthExtension" {
     ]
   }
 
-  settings = jsonencode({
-    "protocol" : try(var.extension.settings.protocol, "http")
-    "port" : try(var.extension.settings.port, 80)
-    "requestPath" : try(var.extension.settings.requestPath, null)
-    "intervalInSeconds" : try(var.extension.settings.intervalInSeconds, 5.0)
-    "numberOfProbes" : try(var.extension.settings.numberOfProbes, 1.0)
-    }
-  )
+  settings = jsonencode(local.health_extension_settings)
 }
 
 locals {
   application_health_extension_type = var.virtual_machine_scale_set_os_type == "linux" ? "ApplicationHealthLinux" : "ApplicationHealthWindows"
+  health_extension_requestPath = try(var.extension.settings.requestPath, null)
+  health_extension_protocol = try(var.extension.settings.protocol, "http")
+  health_extension_port = try(var.extension.settings.port, 80)
+  health_extension_intervalInSeconds = try(var.extension.settings.intervalInSeconds, 5.0)
+  health_extension_numberofProbes = try(var.extension.settings.numberOfProbes, 1.0)
+  health_extension_settings = merge(local.health_extension_protocol, local.health_extension_port, local.health_extension_requestPath, local.health_extension_intervalInSeconds, local.health_extension_numberofProbes)
 }
+
