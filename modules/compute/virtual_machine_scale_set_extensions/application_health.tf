@@ -24,6 +24,6 @@ locals {
   health_extension_port = try(var.extension.settings.port, 80)
   health_extension_intervalInSeconds = try(var.extension.settings.intervalInSeconds, 5.0)
   health_extension_numberofProbes = try(var.extension.settings.numberOfProbes, 1.0)
-  health_extension_settings = merge(local.health_extension_protocol, local.health_extension_port, local.health_extension_requestPath, local.health_extension_intervalInSeconds, local.health_extension_numberofProbes)
+  health_extension_settings = tolist([local.health_extension_protocol, local.health_extension_port, local.health_extension_requestPath, local.health_extension_intervalInSeconds, local.health_extension_numberofProbes])
 }
 
