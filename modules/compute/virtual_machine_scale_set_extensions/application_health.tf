@@ -34,6 +34,6 @@ locals {
   map_health_extension_numberofProbes = {
     numberOfProbes = try(var.extension.settings.numberOfProbes, 1.0)
   }
-  health_extension_settings = merge([local.map_health_extension_protocol, local.map_health_extension_port, local.map_health_extension_requestPath, local.map_health_extension_intervalInSeconds, local.map_health_extension_numberofProbes])
+  health_extension_settings = merge(local.map_health_extension_protocol, local.map_health_extension_port, local.map_health_extension_requestPath, local.map_health_extension_intervalInSeconds, local.map_health_extension_numberofProbes)
 }
 
