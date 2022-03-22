@@ -85,17 +85,3 @@ output "azurerm_firewalls" {
   value = module.azurerm_firewalls
 
 }
-
-resource "null_resource" "debug" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-  command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; cat debug.json"
-    environment = {
-      VARIABLE1 = jsonencode(local.combined_objects_networking)
-      VARIABLE2 = jsonencode(local.networking)
-      #VARIABLE3 = jsonencode(var.networking)
-    } 
-  }
-}

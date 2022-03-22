@@ -7,20 +7,6 @@ terraform {
 
 }
 
-resource "null_resource" "debug" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-  command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; cat debug.json"
-    environment = {
-      VARIABLE1 = jsonencode(var.global_settings)
-      VARIABLE2 = jsonencode(var.diagnostics)
-      #VARIABLE3 = jsonencode(var.networking)
-    } 
-  }
-}
-
 locals {
   os_type = lower(var.settings.os_type)
   # Generate SSH Keys only if a public one is not provided
