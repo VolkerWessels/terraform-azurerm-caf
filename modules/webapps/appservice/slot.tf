@@ -19,7 +19,7 @@ resource "azurerm_app_service_slot" "slots" {
 
     content {
       type         = try(var.identity.type, null)
-      identity_ids = try(var.identity.identity_ids, null)
+      identity_ids = lower(var.identity.type) == "userassigned" ? local.identity_ids : null
     }
   }
 
