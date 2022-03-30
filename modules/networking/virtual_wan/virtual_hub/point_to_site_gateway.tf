@@ -60,10 +60,10 @@ resource "azurerm_vpn_server_configuration" "p2s_configuration" {
   tags                     = local.tags
   vpn_authentication_types = var.virtual_hub_config.p2s_config.server_config.vpn_authentication_types
 
-  client_root_certificate {
-    name             = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.name
-    public_cert_data = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.public_cert_data
-  }
+  # client_root_certificate {
+  #   name             = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.name
+  #   public_cert_data = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.public_cert_data
+  # }
 
 }
 
