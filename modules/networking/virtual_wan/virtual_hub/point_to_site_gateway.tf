@@ -65,9 +65,9 @@ resource "azurerm_vpn_server_configuration" "p2s_configuration" {
   #   public_cert_data = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.public_cert_data
   # }
   azure_active_directory_authentication {
-    audience = var.virtual_hub_config.p2s_config.server_config.audience
-    issuer = try(var.virtual_hub_config.p2s_config.server_config.issuer, "https://sts.windows.net/${local.client_config.tenant_id}")
-    tenant = try(var.virtual_hub_config.p2s_config.server_config.tenant, "https://login.microsoftonline.com/${local.client_config.tenant_id}")
+    audience = try(var.virtual_hub_config.p2s_config.server_config.audience)
+    issuer = try(var.virtual_hub_config.p2s_config.server_config.issuer)
+    tenant = try(var.virtual_hub_config.p2s_config.server_config.tenant)
   }
 }
 
