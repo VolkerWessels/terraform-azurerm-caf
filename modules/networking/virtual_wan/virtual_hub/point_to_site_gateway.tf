@@ -59,15 +59,23 @@ resource "azurerm_vpn_server_configuration" "p2s_configuration" {
   location                 = var.location
   tags                     = local.tags
   vpn_authentication_types = var.virtual_hub_config.p2s_config.server_config.vpn_authentication_types
+  vpn_protocols            = try(var.virtual_hub_config.p2s_config.server_config.vpn_protocols, ["IkeV2", "OpenVPN"])
 
-  # client_root_certificate {
-  #   name             = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.name
-  #   public_cert_data = var.virtual_hub_config.p2s_config.server_config.client_root_certificate.public_cert_data
-  # }
-  azure_active_directory_authentication {
-    audience = try(var.virtual_hub_config.p2s_config.server_config.audience)
-    issuer = try(var.virtual_hub_config.p2s_config.server_config.issuer)
-    tenant = try(var.virtual_hub_config.p2s_config.server_config.tenant)
+  dynamic "client_root_certificate" {
+    for_each = try(var.virtual_hub_config.p2s_config.server_config.client_root_certificate, {}) == {} ? [] : [1]
+    content {
+      name             = try(var.virtual_hub_config.p2s_config.server_config.client_root_certificate.name, null)
+      public_cert_data = try(var.virtual_hub_config.p2s_config.server_config.client_root_certificate.public_cert_data, null)
+    }
+  }
+
+  dynamic "azure_active_directory_authentication" {
+    for_each = try(var.virtual_hub_config.p2s_config.server_config.azure_active_directory_authentication, {}) == {} ? [] : [1]
+    content {
+      audience = try(var.virtual_hub_config.p2s_config.server_config.azure_active_directory_authentication.audience, null)
+      issuer   = try(var.virtual_hub_config.p2s_config.server_config.azure_active_directory_authentication.issuer, null)
+      tenant   = try(var.virtual_hub_config.p2s_config.server_config.azure_active_directory_authentication.tenant, null)
+    }
   }
 }
 
