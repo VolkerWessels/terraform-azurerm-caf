@@ -11,3 +11,16 @@ locals {
     ]
   )
 }
+
+resource "null_resource" "debug" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "echo $VARIABLE1 >> debug.json; cat debug.json"
+    environment = {
+      VARIABLE1 = jsonencode(var.remote_objects)
+      #VARIABLE2 = jsonencode(azurerm_shared_image.image.name)
+    }
+  }
+}
