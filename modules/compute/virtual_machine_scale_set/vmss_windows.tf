@@ -108,10 +108,10 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     write_accelerator_enabled = try(each.value.os_disk.write_accelerator_enabled, false)
 
     dynamic "diff_disk_settings" {
-        for_each = try(each.value.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
-        content {
-          option = try(each.value.os_disk.diff_disk_settings.option, "Local")
-        } 
+      for_each = try(each.value.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
+      content {
+        option = try(each.value.os_disk.diff_disk_settings.option, "Local")
+      }
     }
   }
 
