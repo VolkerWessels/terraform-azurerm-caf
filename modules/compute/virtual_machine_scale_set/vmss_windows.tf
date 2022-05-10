@@ -66,7 +66,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   tags                = merge(local.tags, try(each.value.tags, null))
 
   computer_name_prefix         = azurecaf_name.windows_computer_name_prefix[each.key].result
-  custom_data                  = try(each.value.custom_data, null) == null ? null : filebase64(format("%s/%s", path.cwd, each.value.custom_data))
+  custom_data                  = try(each.value.custom_data, null) == null ? null : filebase64(format("%s/%s", each.value.custom_data))
   eviction_policy              = try(each.value.eviction_policy, null)
   max_bid_price                = try(each.value.max_bid_price, null)
   priority                     = try(each.value.priority, null)
@@ -113,10 +113,10 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     write_accelerator_enabled = try(each.value.os_disk.write_accelerator_enabled, false)
 
     dynamic "diff_disk_settings" {
-        for_each = try(each.value.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
-        content {
-          option = try(each.value.os_disk.diff_disk_settings.option, "Local")
-        } 
+      for_each = try(each.value.os_disk.diff_disk_settings, {}) == {} ? [] : [1]
+      content {
+        option = try(each.value.os_disk.diff_disk_settings.option, "Local")
+      }
     }
   }
 
