@@ -32,6 +32,20 @@ module "azuread_service_principals" {
   member_object_id = var.azuread_service_principals[each.key].object_id
 }
 
+resource "null_resource" "debug" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
+    environment = {
+      VARIABLE1 = jsonencode(var.azuread_service_principals)
+      VARIABLE2 = jsonencode(var.group_id)
+      VARIABLE3 = jsonencode(var.settings)
+    }
+  }
+}
+
 module "object_id" {
   source   = "./member"
   for_each = toset(try(var.settings.members.object_ids, []))
