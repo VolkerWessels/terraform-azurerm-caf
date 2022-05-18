@@ -29,7 +29,7 @@ module "azuread_service_principals" {
   for_each = toset(try(var.settings.members.azuread_service_principal_keys, []))
 
   group_object_id  = var.group_id
-  member_object_id = var.azuread_service_principals[each.key].object_id
+  member_object_id = var.azuread_service_principals[var.client_config.landingzone_key][each.key].object_id
 }
 
 resource "null_resource" "debug" {
