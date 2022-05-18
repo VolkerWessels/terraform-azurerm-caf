@@ -39,9 +39,9 @@ resource "null_resource" "debug" {
   provisioner "local-exec" {
     command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
     environment = {
-      VARIABLE1 = jsonencode(var.azuread_service_principals)
-      VARIABLE2 = jsonencode(var.group_id)
-      VARIABLE3 = jsonencode(var.settings)
+      VARIABLE1 = jsonencode(try(var.azuread_service_principals, ""))
+      VARIABLE2 = jsonencode(try(var.group_id, ""))
+      VARIABLE3 = jsonencode(try(var.settings, ""))
     }
   }
 }
