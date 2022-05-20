@@ -32,19 +32,20 @@ module "azuread_service_principals" {
   member_object_id = var.azuread_service_principals[var.client_config.landingzone_key][each.key].object_id
 }
 
-resource "null_resource" "debug" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-    command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; cat debug.json"
-    environment = {
-      VARIABLE1 = jsonencode(try(var.azuread_service_principals, ""))
-      VARIABLE2 = jsonencode(try(var.group_id, ""))
-      VARIABLE3 = jsonencode(try(var.settings, ""))
-    }
-  }
-}
+# resource "null_resource" "debug" {
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
+#   provisioner "local-exec" {
+#     command = "echo $VARIABLE1 >> debug.json; echo $VARIABLE2 >> debug.json; echo $VARIABLE3 >> debug.json; echo $VARIABLE4 >> debug.json; cat debug.json"
+#     environment = {
+#       VARIABLE1 = jsonencode(try(var.azuread_service_principals, ""))
+#       VARIABLE2 = jsonencode(try(var.group_id, ""))
+#       VARIABLE3 = jsonencode(try(var.settings, ""))
+#       VARIABLE4 = jsonencode(try(var.azuread_groups, ""))
+#     }
+#   }
+# }
 
 module "object_id" {
   source   = "./member"
