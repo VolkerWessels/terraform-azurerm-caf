@@ -7,6 +7,7 @@ resource "null_resource" "debug" {
     environment = {
       VARIABLE1 = jsonencode(try(local.azuread.azuread_groups, ""))
       VARIABLE2 = jsonencode(try(local.combined_objects_azuread_groups, ""))
+      VARIABLE3 = jsonencode(try(module.azuread_groups, ""))
     }
   }
 }
