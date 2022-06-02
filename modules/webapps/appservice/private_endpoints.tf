@@ -4,7 +4,7 @@ module "private_endpoint" {
 
   resource_id         = azurerm_app_service.app_service.id
   name                = each.value.name
-  location            = var.resource_groups[each.value.resource_group_key].location
+  location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = can(each.value.subnet_id) ? each.value.subnet_id : var.vnets[try(each.value.lz_key, var.client_config.landingzone_key)][each.value.vnet_key].subnets[each.value.subnet_key].id
   settings            = each.value

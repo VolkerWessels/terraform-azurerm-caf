@@ -73,4 +73,5 @@ variable "diagnostics" {
 variable "vnets" {}
 variable "subnet_id" {}
 variable "private_endpoints" {}
+variable "private_dns" {}
 
