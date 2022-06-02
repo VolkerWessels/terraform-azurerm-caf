@@ -70,6 +70,7 @@ variable "diagnostics" {
   default = null
 }
 
-variable "private_endpoints" {
-  default = null
-}
+variable "vnets" {}
+variable "subnet_id" {}
+variable "private_endpoints" {}
+
