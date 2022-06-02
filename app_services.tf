@@ -25,6 +25,7 @@ module "app_services" {
   diagnostics          = local.combined_diagnostics
   storage_accounts     = local.combined_objects_storage_accounts
   tags                 = try(each.value.tags, null)
+  private_endpoints    = try(each.value.private_endpoints, {})
 }
 
 output "app_services" {
