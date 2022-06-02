@@ -69,3 +69,7 @@ variable "diagnostic_profiles" {
 variable "diagnostics" {
   default = null
 }
+
+variable "private_endpoints" {
+  default = null
+}
