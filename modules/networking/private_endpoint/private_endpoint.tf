@@ -28,18 +28,21 @@ resource "azurerm_private_endpoint" "pep" {
     for_each = can(var.settings.private_dns) ? [var.settings.private_dns] : []
 
     content {
-      name = lookup(private_dns_zone_group.value, "zone_group_name", "default")
+      name = try(var.settings.private_dns.zone_group_name, private_dns_zone_group.zone_group_name)
       private_dns_zone_ids = concat(
         flatten([
-          for key in private_dns_zone_group.value.keys : [
-            try(var.private_dns[try(private_dns_zone_group.value.lz_key, var.client_config.landingzone_key)][key].id, [])
+          for key in try(private_dns_zone_group.keys, []) : [
+            can(private_dns_zone_group.lz_key) ? var.private_dns[private_dns_zone_group.lz_key][key].id : var.private_dns[var.client_config.landingzone_key][key].id
           ]
-          ]
-        ),
-        lookup(private_dns_zone_group.value, "ids", [])
+        ]),
+        try(private_dns_zone_group.ids, [])
       )
-
     }
   }
 
+  lifecycle = {
+    ignore_changes = [
+      private_dns_zone_group
+    ]
+  }
 }
