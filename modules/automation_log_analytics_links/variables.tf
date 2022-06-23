@@ -1,8 +1,3 @@
-variable "location" {
-  description = "(Required) Specifies the supported Azure location where to create the resource. Changing this forces a new resource to be created."
-  type        = string
-}
-
 variable "settings" {
   description = "Configuration object for the Automation account."
   # # optional fields supported after TF14
