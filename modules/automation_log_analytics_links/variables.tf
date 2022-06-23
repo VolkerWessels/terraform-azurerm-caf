@@ -17,3 +17,12 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "workspace_id" {
+  description = "(Required) The Log Analytics Workspace id"
+  type        = string
+}
+
+variable "read_access_id" {
+  description = "(Required) Read access id"
+  type        = string
+}
