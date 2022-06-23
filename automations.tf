@@ -41,7 +41,7 @@ resource "null_resource" "debug" {
     command = "echo $VARIABLE1 >> autodebug.json;echo $VARIABLE2 >> autodebug.json; cat autodebug.json"
     environment = {
       VARIABLE1 = jsonencode(try(var.diagnostics.log_analytics, ""))
-      VARIABLE2 = jsonencode(try(var.automations, ""))
+      VARIABLE2 = jsonencode(try(module.automations, ""))
     }
   }
 }
