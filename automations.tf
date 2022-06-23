@@ -40,7 +40,7 @@ resource "null_resource" "debug" {
   provisioner "local-exec" {
     command = "echo $VARIABLE1 >> autodebug.json;echo $VARIABLE2 >> autodebug.json; cat autodebug.json"
     environment = {
-      VARIABLE1 = jsonencode(try(local.combined_objects_log_analytics, ""))
+      VARIABLE1 = jsonencode(try(local.combined_diagnostics, ""))
       VARIABLE2 = jsonencode(try(module.automations, ""))
     }
   }
