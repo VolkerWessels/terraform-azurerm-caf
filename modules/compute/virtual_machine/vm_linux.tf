@@ -193,3 +193,7 @@ resource "azurerm_key_vault_secret" "ssh_public_key_openssh" {
   }
 }
 
+resource "azurerm_security_center_server_vulnerability_assessment_virtual_machine" "default" {
+  for_each           = var.settings.virtual_machine_settings.vulnerability_scan == true ? true : {}
+  virtual_machine_id = azurerm_linux_virtual_machine.vm.id
+}
