@@ -30,12 +30,6 @@ resource "azurerm_virtual_machine_scale_set_extension" "keyvault" {
   })
 }
 
-data "azurerm_key_vault_certificate" "observedCertificates" {
-  for_each     = var.extension_name == "microsoft_azure_keyvault" && can(var.extension.secrets_management_settings.observedCertificates) ? toset(["enabled"]) : toset([])
-  name         = var.extension.secrets_management_settings.observedCertificates
-  key_vault_id = can(var.extension.secrets_management_settings.certificateStoreName.key_vault_id) ? var.extension.secrets_management_settings.certificateStoreName.key_vault_id : try(var.extension.secrets_management_settings.lz_key, var.client_config.landingzone_key)[var.extension.secrets_management_settings.keyvault_key].id
-}
-
 locals {
   managed_local_identity_client_id  = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].client_id, "")
   managed_remote_identity_client_id = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].client_id, "")
