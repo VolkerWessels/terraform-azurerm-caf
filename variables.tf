@@ -405,6 +405,6 @@ variable "purview" {
 variable "sentinel_watchlists" {
   default = {}
 }
-variable "resource_provider_registration" {
-  default = {}
-}
+# variable "resource_provider_registration" {
+#   default = {}
+# }
