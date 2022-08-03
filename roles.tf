@@ -56,6 +56,7 @@ locals {
   )
 
   services_roles = {
+    automations                                = local.combined_objects_automations
     aks_clusters                               = local.combined_objects_aks_clusters
     aks_ingress_application_gateway_identities = local.aks_ingress_application_gateway_identities
     api_management                             = local.combined_objects_api_management
@@ -79,6 +80,7 @@ locals {
     data_factory                               = local.combined_objects_data_factory
     databricks_workspaces                      = local.combined_objects_databricks_workspaces
     dns_zones                                  = local.combined_objects_dns_zones
+    function_apps                              = local.combined_objects_function_apps
     event_hub_namespaces                       = local.combined_objects_event_hub_namespaces
     keyvaults                                  = local.combined_objects_keyvaults
     kusto_clusters                             = local.combined_objects_kusto_clusters

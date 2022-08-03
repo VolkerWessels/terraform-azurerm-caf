@@ -458,6 +458,9 @@ variable "cosmos_dbs" {
 variable "dynamic_keyvault_secrets" {
   default = {}
 }
+variable "dynamic_keyvault_certificates" {
+  default = {}
+}
 variable "front_doors" {
   default = {}
 }
@@ -988,5 +991,8 @@ variable "traffic_manager_profile" {
   default = {}
 }
 variable "resource_provider_registration" {
+  default = {}
+}
+variable "static_sites" {
   default = {}
 }
