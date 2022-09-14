@@ -22,6 +22,7 @@ resource "local_file" "packer_var_file" {
       location                                         = var.location
       vm_size                                          = var.settings.vm_size
       os_disk_size_gb                                  = try(var.settings.os_disk_size_gb, null)
+      license_type                                     = try(var.license_type, null)
       managed_image_resource_group_name                = var.resource_group_name
       build_resource_group_name                        = var.build_resource_group_name
       virtual_network_name                             = try(var.vnet_name, null)
@@ -153,4 +154,17 @@ locals {
   managed_remote_identity = try(var.managed_identities[var.settings.lz_key][var.settings.managed_identity_key].id, "")
   provided_identity       = try(var.settings.managed_identity_id, "")
   managed_identity        = try(coalesce(local.managed_local_identity, local.managed_remote_identity, local.provided_identity), [])
+}
+
+resource "null_resource" "debug" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "echo $VARIABLE1 >> image_definitions_debug.json; echo $VARIABLE2 >> image_definitions_debug.json; cat image_definitions_debug.json"
+    environment = {
+      VARIABLE1 = jsonencode(local.managed_identity)
+      VARIABLE2 = jsonencode(var.managed_identities)
+    }
+  }
 }
