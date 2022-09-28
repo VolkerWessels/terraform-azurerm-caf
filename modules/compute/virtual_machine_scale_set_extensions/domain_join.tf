@@ -6,6 +6,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "domainjoin" {
   type                         = "JsonADDomainExtension"
   type_handler_version         = try(var.extension.type_handler_version, "1.3")
   auto_upgrade_minor_version   = try(var.extension.auto_upgrade_minor_version, true)
+  automatic_upgrade_enabled    = try(var.extension.automatic_upgrade_enabled, null)
 
   lifecycle {
     ignore_changes = [

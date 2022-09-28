@@ -6,6 +6,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "vmss_ext_da" {
   publisher                    = "Microsoft.Azure.Monitoring.DependencyAgent"
   type                         = var.virtual_machine_scale_set_os_type == "linux" ? "DependencyAgentLinux" : "DependencyAgentWindows"
   type_handler_version         = try(var.extension.type_handler_version, null)
+  automatic_upgrade_enabled    = try(var.extension.automatic_upgrade_enabled, null)
 
   settings = jsonencode({
     "enableAutomaticUpgrade" = true
