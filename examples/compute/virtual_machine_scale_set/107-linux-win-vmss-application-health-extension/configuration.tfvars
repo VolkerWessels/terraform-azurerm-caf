@@ -413,6 +413,9 @@ virtual_machine_scale_sets = {
 
     virtual_machine_scale_set_extensions = {
       microsoft_azure_health_extension = {
+        type_handler_version       = "1.0"
+        auto_upgrade_minor_version = true
+        automatic_upgrade_enabled  = true
         settings = {
           protocol          = "http"
           port              = 80
