@@ -39,6 +39,15 @@ resource "azurerm_mysql_flexible_server" "mysql" {
     }
   }
 
+  dynamic "high_availability" {
+    for_each = try(var.settings.high_availability, null) == null ? [] : [var.settings.high_availability]
+
+    content {
+      mode                      = "ZoneRedundant"
+      standby_availability_zone = try(var.settings.zone, null) == null ? null : var.settings.high_availability.standby_availability_zone
+    }
+  }
+
   dynamic "storage" {
     for_each = try(var.settings.storage, null) == null ? [] : [var.settings.storage]
 
