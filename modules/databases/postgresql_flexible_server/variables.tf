@@ -33,6 +33,10 @@ variable "location" {
   type        = string
 }
 
-variable "private_dns" {
+variable "subnet_id" {
+  default = {}
+}
+
+variable "keyvault_id" {
   default = {}
 }
