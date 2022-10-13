@@ -38,6 +38,8 @@ resource "azurerm_mysql_flexible_server" "mysql" {
       start_minute = try(var.settings.maintenance_window.start_minute, 0)
     }
   }
+<<<<<<< HEAD
+=======
 
   dynamic "high_availability" {
     for_each = try(var.settings.high_availability, null) == null ? [] : [var.settings.high_availability]
@@ -48,6 +50,7 @@ resource "azurerm_mysql_flexible_server" "mysql" {
     }
   }
 
+>>>>>>> added private endpoint.tf to postgres flex server
   dynamic "storage" {
     for_each = try(var.settings.storage, null) == null ? [] : [var.settings.storage]
 

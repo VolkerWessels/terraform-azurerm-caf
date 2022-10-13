@@ -19,16 +19,10 @@ module "postgresql_flexible_servers" {
   remote_objects = {
     private_dns_zone_id = can(each.value.private_dns_zone.key) ? local.combined_objects_private_dns[try(each.value.private_dns_zone.lz_key, local.client_config.landingzone_key)][each.value.private_dns_zone.key].id : null
     diagnostics         = local.combined_diagnostics
-    keyvault_id         = coalesce(
-      try(each.value.administrator_login_password, null),
-      try(module.keyvaults[each.value.keyvault_key].id, null),
-      try(local.combined_objects_keyvaults[each.value.keyvault.lz_key][each.value.keyvault.key].id, null),
-      try(local.combined_objects_keyvaults[local.client_config.landingzone_key][each.value.keyvault.key].id, null)
-    )
-    subnet_id           = can(each.value.subnet_id) || can(each.value.vnet_key) == false ? try(each.value.subnet_id, null) : try(local.combined_objects_virtual_subnets[try(each.value.lz_key, local.client_config.landingzone_key)][each.value.subnet_key].id, local.combined_objects_networking[try(each.value.lz_key, local.client_config.landingzone_key)][each.value.vnet_key].subnets[each.value.subnet_key].id)
     vnets               = local.combined_objects_networking
-    private_endpoints   = try(each.value.private_endpoints, {})
     virtual_subnets     = local.combined_objects_virtual_subnets
+    private_dns         = local.combined_objects_private_dns
+    private_endpoints   = try(each.value.private_endpoints, {})
   }
 
   subnet_id           = can(each.value.subnet_id) || can(each.value.vnet_key) == false ? try(each.value.subnet_id, null) : local.combined_objects_networking[try(each.value.lz_key, local.client_config.landingzone_key)][each.value.vnet_key].subnets[each.value.subnet_key].id

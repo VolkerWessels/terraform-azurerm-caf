@@ -29,8 +29,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
 
   backup_retention_days = try(var.settings.backup_retention_days, null)
 
-  # public_network_access_enabled     = try(var.settings.public_network_access_enabled, true)
-
   dynamic "maintenance_window" {
     for_each = try(var.settings.maintenance_window, null) == null ? [] : [var.settings.maintenance_window]
 
