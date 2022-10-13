@@ -32,11 +32,9 @@ variable "location" {
   description = "(Required) Specifies the supported Azure location where to create the resource. Changing this forces a new resource to be created."
   type        = string
 }
-
-variable "subnet_id" {
+variable "vnets" {}
+variable "private_endpoints" {}
+variable "private_dns" {
   default = {}
 }
-
-variable "keyvault_id" {
-  default = {}
-}
+variable "keyvault_id" {}
