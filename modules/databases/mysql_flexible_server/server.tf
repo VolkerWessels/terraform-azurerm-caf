@@ -44,7 +44,7 @@ resource "azurerm_mysql_flexible_server" "mysql" {
 
     content {
       mode                      = "ZoneRedundant"
-        standby_availability_zone = var.settings.zone == null ? null : var.settings.high_availability.standby_availability_zone    
+      standby_availability_zone = var.settings.zone == null ? null : var.settings.high_availability.standby_availability_zone    
     }
   }
 
