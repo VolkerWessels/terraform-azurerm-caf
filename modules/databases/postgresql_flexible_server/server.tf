@@ -48,16 +48,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
     }
   }
 
-  dynamic "storage" {
-    for_each = try(var.settings.storage, null) == null ? [] : [var.settings.storage]
-
-    content {
-      auto_grow_enabled = try(var.settings.storage.auto_grow_enabled, "True")
-      iops              = try(var.settings.storage.iops, "360")
-      size_gb           = try(var.settings.storage.size_gb, "20")
-    }
-  }
-
   lifecycle {
     ignore_changes = [
       private_dns_zone_id,
