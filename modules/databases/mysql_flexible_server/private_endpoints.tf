@@ -2,7 +2,7 @@ module "private_endpoint" {
   source   = "../../networking/private_endpoint"
   for_each = try(var.remote_objects.private_endpoints, {})
 
-  resource_id         = azurerm_mygresql_flexible_server.mysql.id
+  resource_id         = azurerm_mysql_flexible_server.mysql.id
   name                = each.value.name
   location            = var.location
   resource_group_name = var.resource_group_name
