@@ -17,7 +17,7 @@ resource "azurerm_mysql_flexible_server" "mysql" {
   sku_name            = try(var.settings.sku_name, null)
   zone                = try(var.settings.zone, 1)
 
-  delegated_subnet_id = var.remote_objects.subnet_id
+  delegated_subnet_id = var.subnet_id
   private_dns_zone_id = var.remote_objects.private_dns_zone_id
 
   create_mode                       = try(var.settings.create_mode, "Default")
@@ -74,7 +74,7 @@ resource "azurerm_key_vault_secret" "mysql_administrator_username" {
 
   name         = format("%s-mysql-administrator-username", azurecaf_name.mysql_flexible_server.result)
   value        = try(var.settings.administrator_username, "psqladmin")
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -100,7 +100,7 @@ resource "azurerm_key_vault_secret" "mysql_administrator_password" {
 
   name         = format("%s-mysql-administrator-password", azurecaf_name.mysql_flexible_server.result)
   value        = try(var.settings.administrator_password, random_password.mysql_administrator_password.0.result)
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -115,5 +115,5 @@ resource "azurerm_key_vault_secret" "mysql_fqdn" {
 
   name         = format("%s-mysql-fqdn", azurecaf_name.mysql_flexible_server.result)
   value        = azurerm_mysql_flexible_server.mysql.fqdn
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 }
