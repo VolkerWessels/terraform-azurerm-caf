@@ -1,10 +1,10 @@
 
-output "mysql_flexible_server" {
+output "mysql_flexible_servers" {
   value = module.mysql_flexible_servers
 }
 
 module "mysql_flexible_servers" {
-  source     = "./modules/databases/mysql_flexible_servers"
+  source     = "./modules/databases/mysql_flexible_server"
   depends_on = [module.keyvaults, module.networking]
   for_each   = local.database.mysql_flexible_servers
 
