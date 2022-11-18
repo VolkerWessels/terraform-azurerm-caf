@@ -32,5 +32,5 @@ resource "azurerm_key_vault_secret" "mysql_database_name" {
 
   name         = format("%s-ON-%s", azurerm_mysql_flexible_server.mysql.name, each.value.name)
   value        = each.value.name
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 }
