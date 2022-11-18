@@ -1008,6 +1008,3 @@ variable "static_sites" {
 variable "security_center" {
   default = {}
 }
-variable "security_center" {
-  default = {}
-}
