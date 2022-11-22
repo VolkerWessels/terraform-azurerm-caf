@@ -32,3 +32,13 @@ variable "location" {
   description = "(Required) Specifies the supported Azure location where to create the resource. Changing this forces a new resource to be created."
   type        = string
 }
+
+variable "subnet_id" {
+  description = "(Required) Specifies the subnet_id for linking the private endpoint"
+  default = {}
+}
+
+variable "keyvault_id" {
+  description = "(Required) Specifies the keyvault_id to associate with azure object"
+  default = {}
+}

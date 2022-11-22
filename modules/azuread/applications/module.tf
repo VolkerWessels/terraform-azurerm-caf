@@ -3,8 +3,7 @@ resource "azuread_application" "app" {
   display_name = var.global_settings.passthrough ? format("%s", var.settings.application_name) : format("%v-%s", try(var.global_settings.prefixes[0], ""), var.settings.application_name)
 
   owners = [
-    var.client_config.object_id,
-    var.settings.owners
+    var.client_config.object_id
   ]
 
   reply_urls                 = try(var.settings.reply_urls, null)

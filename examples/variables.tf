@@ -1005,9 +1005,6 @@ variable "resource_provider_registration" {
 variable "static_sites" {
   default = {}
 }
-variable "aro_clusters" {
-  default = {}
-}
 variable "security_center" {
   default = {}
 }

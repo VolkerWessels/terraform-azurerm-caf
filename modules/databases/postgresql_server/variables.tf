@@ -36,4 +36,3 @@ variable "base_tags" {
 variable "private_dns" {
   default = {}
 }
-variable "virtual_subnets" {}
