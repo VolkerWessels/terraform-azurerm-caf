@@ -128,11 +128,10 @@ resource "azurerm_frontdoor" "frontdoor" {
 
 resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   for_each = {
-    for key, value in var.settings.frontend_endpoints : key => value
-    if try(value.custom_https_provisioning_enabled, false)
+    for key, value in azurerm_frontdoor.frontdoor.frontend_endpoints : key => value
+    if try(var.settings.frontdoor_endpoints[index(var.settings.frontdoor_endpoints[*].name, each.key)].custom_https_provisioning_enabled, false)
   }
-
-  frontend_endpoint_id              = azurerm_frontdoor.frontdoor.frontend_endpoints[each.value.name]
+  frontend_endpoint_id              = each.value
   custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
 
   custom_https_configuration {
