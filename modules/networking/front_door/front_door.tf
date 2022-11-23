@@ -126,10 +126,19 @@ resource "azurerm_frontdoor" "frontdoor" {
 }
 
 resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
+<<<<<<< HEAD
   for_each = var.settings.frontend_endpoints
 
   frontend_endpoint_id = "${azurerm_frontdoor.frontdoor.id}/frontendEndpoints/${each.value.name}"
   custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
+=======
+  for_each = {
+    for key, value in azurerm_frontdoor.frontdoor.frontend_endpoints : key => value
+    if try(var.settings.frontdoor_endpoints[index(var.settings.frontdoor_endpoints[*].name, each.key)].custom_https_provisioning_enabled, false)
+  }
+  frontend_endpoint_id              = each.value
+  custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
+>>>>>>> added mapping of endpoints[*].name to each.key
 
   dynamic "custom_https_configuration" {
     for_each = try(each.value.custom_https_configuration, null) == null ? [] : [each.value.custom_https_configuration]
