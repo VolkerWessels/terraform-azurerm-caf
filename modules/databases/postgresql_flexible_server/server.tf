@@ -17,7 +17,7 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
   zone                = try(var.settings.zone, 1)
   storage_mb          = try(var.settings.storage_mb, null)
 
-  delegated_subnet_id = var.remote_objects.subnet_id
+  delegated_subnet_id = var.subnet_id
   private_dns_zone_id = var.remote_objects.private_dns_zone_id
 
   create_mode                       = try(var.settings.create_mode, "Default")
@@ -54,7 +54,7 @@ resource "azurerm_key_vault_secret" "postgresql_administrator_username" {
 
   name         = format("%s-username", azurecaf_name.postgresql_flexible_server.result)
   value        = try(var.settings.administrator_username, "pgadmin")
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -80,7 +80,7 @@ resource "azurerm_key_vault_secret" "postgresql_administrator_password" {
 
   name         = format("%s-password", azurecaf_name.postgresql_flexible_server.result)
   value        = try(var.settings.administrator_password, random_password.postgresql_administrator_password.0.result)
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -95,5 +95,5 @@ resource "azurerm_key_vault_secret" "postgresql_fqdn" {
 
   name         = format("%s-fqdn", azurecaf_name.postgresql_flexible_server.result)
   value        = azurerm_postgresql_flexible_server.postgresql.fqdn
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 }
