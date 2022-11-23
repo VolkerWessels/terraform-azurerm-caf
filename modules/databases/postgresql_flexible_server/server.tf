@@ -38,16 +38,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
       start_minute = try(var.settings.maintenance_window.start_minute, 0)
     }
   }
-
-  # dynamic "high_availability" {
-  #   for_each = try(var.settings.high_availability, null) == null ? [] : [var.settings.high_availability]
-
-  #   content {
-  #     mode                      = "ZoneRedundant"
-  #     standby_availability_zone = var.settings.zone == null ? null : var.settings.high_availability.standby_availability_zone
-  #   }
-  # }
-
   lifecycle {
     ignore_changes = [
       private_dns_zone_id,
