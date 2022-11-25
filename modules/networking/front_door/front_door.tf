@@ -133,11 +133,11 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
 =======
   for_each = {
-    for key,value in azurerm_frontdoor.frontdoor.frontend_endpoints: key => flatten([for k,v in var.settings.frontend_endpoints: v if v.name == key ])
+    for key,value in var.settings.frontend_endpoints: key => merge(value, {frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]})
   }
 
-  frontend_endpoint_id = azurerm_frontdoor.frontdoor.frontend_endpoints[each.key]
-  custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
+  frontend_endpoint_id = each.value.frontend_endpoint_id
+  custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
 
   dynamic "custom_https_configuration" {
     for_each = try(lower(each.value.custom_https_configuration.certificate_source) == "frontdoor" ? {certificate_source: "FrontDoor"} : each.value.custom_https_configuration,  {})
