@@ -133,20 +133,20 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
 =======
   for_each = {
-  for key,value in var.settings.frontend_endpoints : key => value
-  if alltrue ([can(azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]) , try(value.custom_https_provisioning_enabled, false)])
-}
-  frontend_endpoint_id              = each.value
+    for key,value in azurerm_frontdoor.frontdoor.frontend_endpoints: key => try(flatten([for k,v in var.settings.frontend_endpoints: v if v.name == key ]), {})
+  }
+
+  frontend_endpoint_id = azurerm_frontdoor.frontdoor.frontend_endpoints[each.key]
   custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
 >>>>>>> added mapping of endpoints[*].name to each.key
 
   dynamic "custom_https_configuration" {
-    for_each = try(each.value.custom_https_configuration, null) == null ? [] : [each.value.custom_https_configuration]
+    for_each = lower(each.value.custom_https_configuration.certificate_source) == "frontdoor" ? {certificate_source: "FrontDoor"} : each.value.custom_https_configuration
     content {
-      certificate_source = try(each.value.custom_https_configuration.certificate_source, "FrontDoor")
-      azure_key_vault_certificate_vault_id = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_vault_id, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].keyvault_id, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].keyvault_id)): null
-      azure_key_vault_certificate_secret_name = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_secret_name, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].name, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].name)): null
-      azure_key_vault_certificate_secret_version = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_secret_name, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].version, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].version)): null
+      certificate_source = try(custom_https_configuration.value.certificate_source, "FrontDoor")
+      azure_key_vault_certificate_vault_id = try(custom_https_configuration.value.azure_key_vault_certificate_vault_id, null) == null ? try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].keyvault_id, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].keyvault_id) : null
+      azure_key_vault_certificate_secret_name = try(custom_https_configuration.value.azure_key_vault_certificate_secret_name, null) == null ? try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].name, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].name) : null
+      azure_key_vault_certificate_secret_version = try(custom_https_configuration.value.azure_key_vault_certificate_secret_version, null) == null ? try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].version, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].version) : null
     }
   }
 }
