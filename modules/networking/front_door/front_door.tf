@@ -133,9 +133,9 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
 =======
   for_each = {
-    for key, value in azurerm_frontdoor.frontdoor.frontend_endpoints : key => value
-    if try(var.settings.frontdoor_endpoints[index(var.settings.frontdoor_endpoints[*].name, each.key)].custom_https_provisioning_enabled, false)
-  }
+  for key,value in var.settings.frontdoor_endpoints : key => value
+  if try(azurerm_frontdoor.frontdoor.frontend_endpoints[value.name], false) && try(value.custom_https_provisioning_enabled, false)
+}
   frontend_endpoint_id              = each.value
   custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
 >>>>>>> added mapping of endpoints[*].name to each.key
