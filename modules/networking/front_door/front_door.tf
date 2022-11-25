@@ -134,7 +134,7 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
 =======
   for_each = {
   for key,value in var.settings.frontend_endpoints : key => value
-  if try(azurerm_frontdoor.frontdoor.frontend_endpoints[value.name], false) && try(value.custom_https_provisioning_enabled, false)
+  if alltrue ([try(azurerm_frontdoor.frontdoor.frontend_endpoints[value.name], false) , try(value.custom_https_provisioning_enabled, false)])
 }
   frontend_endpoint_id              = each.value
   custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
