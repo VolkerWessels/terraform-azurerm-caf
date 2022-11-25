@@ -141,7 +141,7 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
 >>>>>>> added mapping of endpoints[*].name to each.key
 
   dynamic "custom_https_configuration" {
-    for_each = lower(each.value.custom_https_configuration.certificate_source) == "frontdoor" ? {certificate_source: "FrontDoor"} : try(each.value.custom_https_configuration, {})
+    for_each = try(lower(each.value.custom_https_configuration.certificate_source) == "frontdoor" ? {certificate_source: "FrontDoor"} : each.value.custom_https_configuration,  {})
     content {
       certificate_source = try(custom_https_configuration.value.certificate_source, "FrontDoor")
       azure_key_vault_certificate_vault_id = try(custom_https_configuration.value.azure_key_vault_certificate_vault_id, null) == null ? try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].keyvault_id, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].keyvault_id) : null
