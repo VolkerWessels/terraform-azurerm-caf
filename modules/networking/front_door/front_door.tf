@@ -127,7 +127,7 @@ resource "azurerm_frontdoor" "frontdoor" {
 
 resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   for_each = {
-    for key,value in var.settings.frontend_endpoints: key => merge(value, {frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]})
+    for key,value in var.settings.frontend_endpoints: key => merge(value, try({frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]}, {}))
   }
 
   frontend_endpoint_id = each.value.frontend_endpoint_id
@@ -142,8 +142,4 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
       azure_key_vault_certificate_secret_version = try(custom_https_configuration.value.azure_key_vault_certificate_secret_version, null) == null ? try(try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].version, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].version), null) : custom_https_configuration.value.azure_key_vault_certificate_secret_version
     }
   }
-
-  depends_on = [
-    azurerm_frontdoor.frontdoor
-  ]
 }
