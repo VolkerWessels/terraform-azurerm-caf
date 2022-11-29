@@ -133,7 +133,8 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
 =======
   for_each = {
-    for key,value in var.settings.frontend_endpoints: key => merge(value, try({frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]}, {}))
+    for key,value in var.settings.frontend_endpoints: key => merge(value, {frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name]})
+    if can(frontend_endpoint_id=azurerm_frontdoor.frontdoor.frontend_endpoints[value.name])
   }
 
   frontend_endpoint_id = each.value.frontend_endpoint_id
