@@ -144,6 +144,6 @@ resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   }
 
   depends_on = [
-    azurerm_frontdoor.frontdoor.frontend_endpoints
+    azurerm_frontdoor.frontdoor
   ]
 }
