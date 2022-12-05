@@ -31,10 +31,6 @@ resource "azurerm_key_vault_secret" "mysql_database_name" {
   for_each = { for key, value in var.settings.mysql_databases : key => value if can(var.settings.keyvault) }
 
   name         = format("%s-ON-%s", azurerm_mysql_flexible_server.mysql.name, each.value.name)
-<<<<<<< HEAD
-  value        = try(azurecaf_name.mysql_flexible_database[each.key].result, each.value.name)
-=======
-  value        = each.value.name
->>>>>>> mysql flex diff met postgres flex commit
+  value        = try(azurecaf_name.mysql_flexible_database[each.key].result ,each.value.name)
   key_vault_id = var.keyvault_id
 }
