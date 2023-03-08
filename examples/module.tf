@@ -25,6 +25,7 @@ module "example" {
   storage_accounts                      = var.storage_accounts
   subscription_billing_role_assignments = var.subscription_billing_role_assignments
   resource_provider_registration        = var.resource_provider_registration
+  var_folder_path                       = var.var_folder_path
   tags                                  = local.tags
 
   azuread = {
@@ -170,6 +171,8 @@ module "example" {
     eventgrid_topic              = var.eventgrid_topic
     eventgrid_event_subscription = var.eventgrid_event_subscription
     eventgrid_domain_topic       = var.eventgrid_domain_topic
+    web_pubsubs                  = var.web_pubsubs
+    web_pubsub_hubs              = var.web_pubsub_hubs
   }
   networking = {
     application_gateway_applications                        = var.application_gateway_applications
@@ -293,13 +296,15 @@ module "example" {
 
   }
   webapp = {
-    azurerm_application_insights = var.azurerm_application_insights
-    app_service_environments     = var.app_service_environments
-    app_service_environments_v3  = var.app_service_environments_v3
-    app_service_plans            = var.app_service_plans
-    app_services                 = var.app_services
-    function_apps                = var.function_apps
-    static_sites                 = var.static_sites
+    azurerm_application_insights                   = var.azurerm_application_insights
+    azurerm_application_insights_web_test          = var.azurerm_application_insights_web_test
+    azurerm_application_insights_standard_web_test = var.azurerm_application_insights_standard_web_test
+    app_service_environments                       = var.app_service_environments
+    app_service_environments_v3                    = var.app_service_environments_v3
+    app_service_plans                              = var.app_service_plans
+    app_services                                   = var.app_services
+    function_apps                                  = var.function_apps
+    static_sites                                   = var.static_sites
   }
   data_factory = {
     data_factory                                 = var.data_factory
@@ -339,6 +344,7 @@ module "example" {
     logic_app_trigger_http_request = var.logic_app_trigger_http_request
     logic_app_trigger_recurrence   = var.logic_app_trigger_recurrence
     logic_app_workflow             = var.logic_app_workflow
+    logic_app_standard             = var.logic_app_standard
   }
   identity = {
     active_directory_domain_service             = var.active_directory_domain_service
@@ -373,6 +379,5 @@ module "example" {
     digital_twins_endpoint_eventhubs    = var.digital_twins_endpoint_eventhubs
     digital_twins_endpoint_eventgrids   = var.digital_twins_endpoint_eventgrids
     digital_twins_endpoint_servicebuses = var.digital_twins_endpoint_servicebuses
-
   }
 }

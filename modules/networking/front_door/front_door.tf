@@ -126,18 +126,18 @@ resource "azurerm_frontdoor" "frontdoor" {
 }
 
 resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
-  for_each = var.settings.frontend_endpoints
+  for_each = {
+    for key, value in var.settings.frontend_endpoints : key => value
+    if try(value.custom_https_provisioning_enabled, false)
+  }
 
-  frontend_endpoint_id = "${azurerm_frontdoor.frontdoor.id}/frontendEndpoints/${each.value.name}"
-  custom_https_provisioning_enabled = can(each.value.custom_https_provisioning_enabled) ? each.value.custom_https_provisioning_enabled : false
+  frontend_endpoint_id              = azurerm_frontdoor.frontdoor.frontend_endpoints[each.value.name]
+  custom_https_provisioning_enabled = try(each.value.custom_https_provisioning_enabled, false)
 
-  dynamic "custom_https_configuration" {
-    for_each = try(each.value.custom_https_configuration, null) == null ? [] : [each.value.custom_https_configuration]
-    content {
-      certificate_source = try(each.value.custom_https_configuration.certificate_source, "FrontDoor")
-      azure_key_vault_certificate_vault_id = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_vault_id, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].keyvault_id, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].keyvault_id)): null
-      azure_key_vault_certificate_secret_name = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_secret_name, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].name, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].name)): null
-      azure_key_vault_certificate_secret_version = try(each.value.custom_https_configuration.certificate_source, "FrontDoor") != "FrontDoor" ? try(custom_https_configuration.value.azure_key_vault_certificate_secret_name, try(var.keyvault_certificate_requests[var.client_config.landingzone_key][custom_https_configuration.value.certificate.key].version, var.keyvault_certificate_requests[custom_https_configuration.value.certificate.lz_key][custom_https_configuration.value.certificate.key].version)): null
-    }
+  custom_https_configuration {
+    certificate_source                         = each.value.custom_https_configuration.certificate_source
+    azure_key_vault_certificate_vault_id       = contains([each.value.custom_https_configuration.certificate_source], "FrontDoor") ? null : can(each.value.custom_https_configuration.keyvault.id) || can(each.value.custom_https_configuration.azure_key_vault_certificate_vault_id) ? try(each.value.custom_https_configuration.keyvault.id, each.value.custom_https_configuration.azure_key_vault_certificate_vault_id) : can(each.value.custom_https_configuration.certificate.key) ? var.keyvault_certificate_requests[try(each.value.custom_https_configuration.certificate.lz_key, var.client_config.landingzone_key)][each.value.custom_https_configuration.certificate.key].keyvault_id : var.keyvaults[try(each.value.custom_https_configuration.keyvault.lz_key, var.client_config.landingzone_key)][each.value.custom_https_configuration.keyvault.key].id
+    azure_key_vault_certificate_secret_name    = contains([each.value.custom_https_configuration.certificate_source], "FrontDoor") ? null : can(each.value.custom_https_configuration.keyvault.secret_name) || can(each.value.custom_https_configuration.azure_key_vault_certificate_secret_name) ? try(each.value.custom_https_configuration.azure_key_vault_certificate_secret_nameeach.value.custom_https_configuration.keyvault.secret_name) : var.keyvault_certificate_requests[try(each.value.custom_https_configuration.certificate.lz_key, var.client_config.landingzone_key)][each.value.custom_https_configuration.certificate.key].name
+    azure_key_vault_certificate_secret_version = contains([each.value.custom_https_configuration.certificate_source], "FrontDoor") ? null : can(each.value.custom_https_configuration.keyvault.secret_version) || (each.value.custom_https_configuration.azure_key_vault_certificate_secret_version) ? try(each.value.custom_https_configuration.keyvault.secret_version, each.value.custom_https_configuration.azure_key_vault_certificate_secret_version) : can(each.value.custom_https_configuration.certificate.key) ? var.keyvault_certificate_requests[try(each.value.custom_https_configuration.certificate.lz_key, var.client_config.landingzone_key)][each.value.custom_https_configuration.certificate.key].version : null
   }
 }

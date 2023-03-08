@@ -227,11 +227,13 @@ locals {
     logic_app_trigger_http_request  = try(var.logic_app.logic_app_trigger_http_request, {})
     logic_app_trigger_recurrence    = try(var.logic_app.logic_app_trigger_recurrence, {})
     logic_app_workflow              = try(var.logic_app.logic_app_workflow, {})
+    logic_app_standard              = try(var.logic_app.logic_app_standard, {})
   }
 
   cognitive_services = {
     cognitive_services_account = try(var.cognitive_services.cognitive_services_account, {})
   }
+
   messaging = {
     signalr_services             = try(var.messaging.signalr_services, {})
     servicebus_namespaces        = try(var.messaging.servicebus_namespaces, {})
@@ -241,6 +243,8 @@ locals {
     eventgrid_topic              = try(var.messaging.eventgrid_topic, {})
     eventgrid_event_subscription = try(var.messaging.eventgrid_event_subscription, {})
     eventgrid_domain_topic       = try(var.messaging.eventgrid_domain_topic, {})
+    web_pubsubs                  = try(var.messaging.web_pubsubs, {})
+    web_pubsub_hubs              = try(var.messaging.web_pubsub_hubs, {})
   }
 
   networking = {
@@ -370,13 +374,15 @@ locals {
   }
 
   webapp = {
-    app_service_environments     = try(var.webapp.app_service_environments, {})
-    app_service_environments_v3  = try(var.webapp.app_service_environments_v3, {})
-    app_service_plans            = try(var.webapp.app_service_plans, {})
-    app_services                 = try(var.webapp.app_services, {})
-    azurerm_application_insights = try(var.webapp.azurerm_application_insights, {})
-    function_apps                = try(var.webapp.function_apps, {})
-    static_sites                 = try(var.webapp.static_sites, {})
+    app_service_environments                       = try(var.webapp.app_service_environments, {})
+    app_service_environments_v3                    = try(var.webapp.app_service_environments_v3, {})
+    app_service_plans                              = try(var.webapp.app_service_plans, {})
+    app_services                                   = try(var.webapp.app_services, {})
+    azurerm_application_insights                   = try(var.webapp.azurerm_application_insights, {})
+    azurerm_application_insights_web_test          = try(var.webapp.azurerm_application_insights_web_test, {})
+    azurerm_application_insights_standard_web_test = try(var.webapp.azurerm_application_insights_standard_web_test, {})
+    function_apps                                  = try(var.webapp.function_apps, {})
+    static_sites                                   = try(var.webapp.static_sites, {})
   }
 
   enable = {
