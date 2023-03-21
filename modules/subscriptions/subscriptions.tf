@@ -1,5 +1,5 @@
 locals {
-  tags = var.global_settings.inherit_settings ? merge(
+  tags = var.global_settings.inherit_tags ? merge(
     var.global_settings.tags,
     try(var.settings.tags, null)
   ) : try(var.settings.tags, null)
