@@ -5,15 +5,15 @@
 #   ) : try(var.settings.tags, null)
 # }
 
-locals {
-  tags = var.base_tags ? merge(
-    var.global_settings.tags,
-    try(var.tags, null)
-    ) : merge(
-    try(var.tags,
-    null)
-  )
-}
+# locals {
+#   tags = var.base_tags ? merge(
+#     var.global_settings.tags,
+#     try(var.tags, null)
+#     ) : merge(
+#     try(var.tags,
+#     null)
+#   )
+# }
 
 data "azurerm_billing_enrollment_account_scope" "sub" {
   count = try(var.settings.subscription_id, null) == null && var.subscription_key != "logged_in_subscription" && try(var.settings.enrollment_account_name, null) != null ? 1 : 0
@@ -39,7 +39,10 @@ resource "azurerm_subscription" "sub" {
   billing_scope_id  = try(var.settings.billing_scope_id, null) == null ? try(data.azurerm_billing_enrollment_account_scope.sub.0.id, data.azurerm_billing_mca_account_scope.sub.0.id, null) : var.settings.billing_scope_id
   workload          = try(var.settings.workload, null)
   #tags              = try(var.settings.tags, null)
-  tags              = try(local.tags, null)
+  tags = merge(
+    var.tags,
+    lookup(var.settings, "tags", {})
+  )
 
   lifecycle {
     ignore_changes = [
