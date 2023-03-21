@@ -9,7 +9,6 @@ module "subscriptions" {
   settings         = each.value
   client_config    = local.client_config
   diagnostics      = local.combined_diagnostics
-  base_tags        = try(local.global_settings.inherit_tags, false) ? try(local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)].tags, {}) : {}
   tags             = merge(lookup(each.value, "tags", {}), var.tags)
 }
 
