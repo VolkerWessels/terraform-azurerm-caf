@@ -73,6 +73,15 @@ resource "azurerm_app_service_slot" "slots" {
 
   # app_settings = var.app_settings
 
+  dynamic "app_settings" {
+    for_each = var.app_settings
+
+    content {
+      key   = app_settings.key
+      value = app_settings.value
+    }
+
+
   dynamic "connection_string" {
     for_each = var.connection_strings
 
