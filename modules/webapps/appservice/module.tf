@@ -96,17 +96,7 @@ resource "azurerm_app_service" "app_service" {
     }
   }
 
-  # app_settings = local.app_settings
-
-  dynamic "app_settings" {
-    for_each = var.app_settings
-
-    content {
-      key   = app_settings.key
-      value = app_settings.value
-    }
-  }
-
+  app_settings = local.app_settings
 
   dynamic "connection_string" {
     for_each = var.connection_strings
