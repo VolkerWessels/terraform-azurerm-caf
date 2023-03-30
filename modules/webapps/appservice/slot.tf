@@ -80,6 +80,7 @@ resource "azurerm_app_service_slot" "slots" {
       key   = app_settings.key
       value = app_settings.value
     }
+  }
 
 
   dynamic "connection_string" {
