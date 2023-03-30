@@ -44,7 +44,7 @@ locals {
       "ApplicationInsightsAgent_EXTENSION_VERSION" = "~2"
     }
   )
-}
+
 
 
   backup_storage_account = can(var.settings.backup) ? var.storage_accounts[try(var.settings.backup.lz_key, var.client_config.landingzone_key)][var.settings.backup.storage_account_key] : null
