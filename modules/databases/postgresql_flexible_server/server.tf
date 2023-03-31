@@ -14,10 +14,10 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
   location            = local.location
   version             = try(var.settings.version, null)
   sku_name            = try(var.settings.sku_name, null)
-  zone                = try(var.settings.zone, null)
+  zone                = try(var.settings.zone, 1)
   storage_mb          = try(var.settings.storage_mb, null)
 
-  delegated_subnet_id = var.remote_objects.subnet_id
+  delegated_subnet_id = var.subnet_id
   private_dns_zone_id = var.remote_objects.private_dns_zone_id
 
   create_mode                       = try(var.settings.create_mode, "Default")
@@ -38,16 +38,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql" {
       start_minute = try(var.settings.maintenance_window.start_minute, 0)
     }
   }
-
-  dynamic "high_availability" {
-    for_each = try(var.settings.high_availability, null) == null ? [] : [var.settings.high_availability]
-
-    content {
-      mode                      = "ZoneRedundant"
-      standby_availability_zone = var.settings.zone == null ? null : var.settings.high_availability.standby_availability_zone
-    }
-  }
-
   lifecycle {
     ignore_changes = [
       private_dns_zone_id,
@@ -64,7 +54,7 @@ resource "azurerm_key_vault_secret" "postgresql_administrator_username" {
 
   name         = format("%s-username", azurecaf_name.postgresql_flexible_server.result)
   value        = try(var.settings.administrator_username, "pgadmin")
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -90,7 +80,7 @@ resource "azurerm_key_vault_secret" "postgresql_administrator_password" {
 
   name         = format("%s-password", azurecaf_name.postgresql_flexible_server.result)
   value        = try(var.settings.administrator_password, random_password.postgresql_administrator_password.0.result)
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 
   lifecycle {
     ignore_changes = [
@@ -105,5 +95,5 @@ resource "azurerm_key_vault_secret" "postgresql_fqdn" {
 
   name         = format("%s-fqdn", azurecaf_name.postgresql_flexible_server.result)
   value        = azurerm_postgresql_flexible_server.postgresql.fqdn
-  key_vault_id = var.remote_objects.keyvault_id
+  key_vault_id = var.keyvault_id
 }

@@ -16,24 +16,18 @@ resource "azurerm_virtual_machine_scale_set_extension" "keyvault" {
 
   settings = jsonencode({
     "secretsManagementSettings" : {
-      "pollingIntervalInS" : try(var.extension.secrets_management_settings.pollingIntervalInS, "3600")
-      "certificateStoreName" : try(var.extension.secrets_management_settings.certificateStoreName)
-      "linkOnRenewal" : try(var.extension.secrets_management_settings.linkOnRenewal, false)
-      "certificateStoreLocation" : try(var.extension.secrets_management_settings.certificateStoreLocation, "")
-      "requireInitialSync" : try(var.extension.secrets_management_settings.requireInitialSync, true)
-      "observedCertificates" : try(var.extension.secrets_management_settings.observedCertificates, data.azurerm_key_vault_certificate.observedCertificates["enabled"].id, "")
+      "pollingIntervalInS" : try(var.extension.secretsManagementSettings.pollingIntervalInS, "3600")
+      "certificateStoreName" : try(var.extension.secretsManagementSettings.certificateStoreName)
+      "linkOnRenewal" : try(var.extension.secretsManagementSettings.linkOnRenewal, false)
+      "certificateStoreLocation" : try(var.extension.secretsManagementSettings.certificateStoreLocation, "")
+      "requireInitialSync" : try(var.extension.secretsManagementSettings.requireInitialSync, true)
+      "observedCertificates" : try(var.extension.secretsManagementSettings.observedCertificates, "")
     }
     "authenticationSettings" : {
       "msiEndpoint" : try(var.extension.authenticationSettings.msiEndpoint, "http://169.254.169.254/metadata/identity")
       "msiClientId" : try(var.extension.authenticationSettings.msiClientId, local.managed_identity_client_id)
     }
   })
-}
-
-data "azurerm_key_vault_certificate" "observedCertificates" {
-  for_each     = var.extension_name == "microsoft_azure_keyvault" && can(var.extension.secrets_management_settings.observedCertificates) ? toset(["enabled"]) : toset([])
-  name         = var.extension.secrets_management_settings.observedCertificates
-  key_vault_id = can(var.extension.secrets_management_settings.certificateStoreName.key_vault_id) ? var.extension.secrets_management_settings.certificateStoreName.key_vault_id : var.keyvaults[try(var.extension.secrets_management_settings.lz_key, var.client_config.landingzone_key)][var.extension.secrets_management_settings.keyvault_key].id
 }
 
 locals {
