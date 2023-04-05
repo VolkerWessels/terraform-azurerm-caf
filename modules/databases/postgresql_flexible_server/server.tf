@@ -54,7 +54,7 @@ resource "azurerm_key_vault_secret" "postgresql_administrator_username" {
 
   name         = format("%s-username", azurecaf_name.postgresql_flexible_server.result)
   value        = try(var.settings.administrator_username, "pgadmin")
-  key_vault_id = var.keyvault_id
+  key_vault_id = var.remote_objects.keyvault_id
 
   lifecycle {
     ignore_changes = [
