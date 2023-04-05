@@ -23,7 +23,6 @@ resource "azurerm_subscription" "sub" {
   workload          = try(var.settings.workload, null)
   tags              = try(var.tags, null)
 
-
   lifecycle {
     ignore_changes = [
       workload
