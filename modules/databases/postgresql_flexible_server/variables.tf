@@ -22,6 +22,10 @@ variable "resource_group" {
   description = "Resource group object"
 }
 
+variable "resource_group_name" {
+  description = "(Required) The name of the Resource Group where the resource should exist. Changing this forces a new resource to be created."
+}
+
 variable "base_tags" {
   description = "Base tags for the resource to be inherited from the resource group."
   type        = bool
