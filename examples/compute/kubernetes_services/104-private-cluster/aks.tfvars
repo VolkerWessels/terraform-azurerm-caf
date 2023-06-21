@@ -1,3 +1,9 @@
+preview_features = {
+  "Microsoft.ContainerService" = [
+    "AKS-KedaPreview",
+    "TrustedAccessPreview"
+  ]
+}
 aks_clusters = {
   cluster_re1 = {
     name               = "akscluster-001"
@@ -20,7 +26,7 @@ aks_clusters = {
 
     network_policy = {
       network_plugin    = "azure"
-      load_balancer_sku = "Standard"
+      load_balancer_sku = "standard"
     }
 
     private_cluster_enabled = true
@@ -39,10 +45,10 @@ aks_clusters = {
 
     private_endpoints = {
       pe1 = {
-        name               = "aks-pe"
+        name = "aks-pe"
         #lz_key             = "" # for vnets created in different lz
-        vnet_key           = "spoke_devops_re1"
-        subnet_key         = "private_endpoints"
+        vnet_key   = "spoke_devops_re1"
+        subnet_key = "private_endpoints"
         private_service_connection = {
           name                 = "aks-psc"
           is_manual_connection = false

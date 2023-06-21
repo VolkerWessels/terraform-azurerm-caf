@@ -4,7 +4,7 @@ output "aks_clusters" {
 
 module "aks_clusters" {
   source     = "./modules/compute/aks"
-  depends_on = [module.networking, module.routes, module.azurerm_firewall_policies, module.application_gateways, module.application_gateway_platforms, module.application_gateway_applications]
+  depends_on = [null_resource.register_feature_preview, module.networking, module.routes, module.azurerm_firewall_policies, module.application_gateways, module.application_gateway_platforms, module.application_gateway_applications]
   for_each   = local.compute.aks_clusters
 
   client_config       = local.client_config
@@ -18,7 +18,11 @@ module "aks_clusters" {
   admin_group_object_ids = try(each.value.admin_groups.azuread_group_keys, null) == null ? null : try(
     each.value.admin_groups.ids,
     [
-      for group_key in try(each.value.admin_groups.azuread_groups.keys, {}) : local.combined_objects_azuread_groups[local.client_config.landingzone_key][group_key].id
+      for group_key in try(each.value.admin_groups.azuread_group_keys, {}) :
+      coalesce(
+        try(local.combined_objects_azuread_groups[each.value.admin_groups.lz_key][group_key].id, null),
+        try(local.combined_objects_azuread_groups[local.client_config.landingzone_key][group_key].id, null)
+      )
     ]
   )
 

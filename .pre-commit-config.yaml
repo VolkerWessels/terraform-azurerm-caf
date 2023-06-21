@@ -3,7 +3,7 @@
 repos:
 <<<<<<< HEAD
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.0
+    rev: v1.77.3
     hooks:
     - id: terraform_fmt
     - id: terraform_docs
