@@ -5,11 +5,20 @@
 **/terraform.tfstate.d
 **/terraform.tfstate.backup
 **/.terraform.tfstate.lock.info
+<<<<<<< HEAD
 **/*.lock.hcl
+=======
+**/.terraform.lock.hcl
+>>>>>>> upstream/main
 **/~*.*
 **/*.log
 **/backend.azurerm.tf
 public
+<<<<<<< HEAD
 **/.terraform.lock.hcl
 **/*.backup
 landingzones
+=======
+*output.json
+**/*.pyc
+>>>>>>> upstream/main
