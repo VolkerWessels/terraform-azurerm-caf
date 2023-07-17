@@ -16,7 +16,7 @@ resource "azurerm_virtual_machine_extension" "keyvault_for_windows" {
         "requireInitialSync" : try(var.extension.require_initial_sync, true)
         "certificateStoreName" : try(var.extension.certificate_store_name, "My")
         "certificateStoreLocation" : try(var.extension.certificate_store_location, "LocalMachine")
-        "observedCertificates" : local.certificate_ids
+        "observedCertificates" : try(var.extension.secretsManagementSettings.observedCertificates, "")
       }
       "authenticationSettings" : {
         "msiEndpoint" : try(var.extension.authenticationSettings.msiEndpoint, "http://169.254.169.254/metadata/identity")
