@@ -27,12 +27,12 @@ resource "azurerm_virtual_machine_extension" "keyvault_for_windows" {
 }
 
 # retrive certificates from key vault
-# data "azurerm_key_vault_certificate" "certificate" {
-#   for_each = var.extension_name == "keyvault_for_windows" ? tomap(var.extension.certificates) : tomap({})
+data "azurerm_key_vault_certificate" "certificate" {
+  for_each = var.extension_name == "keyvault_for_windows" ? tomap(var.extension.certificates) : tomap({})
 
-#   name         = each.value.name
-#   key_vault_id = can(each.value.key_vault_id) ? each.value.key_vault_id : var.keyvaults[try(each.value.lz_key, var.client_config.landingzone_key)][each.value.keyvault_key].id
-# }
+  name         = each.value.name
+  key_vault_id = can(each.value.key_vault_id) ? each.value.key_vault_id : var.keyvaults[try(each.value.lz_key, var.client_config.landingzone_key)][each.value.keyvault_key].id
+}
 
 locals {
   certificate_ids                   = [for key, value in tomap(data.azurerm_key_vault_certificate.certificate) : value.secret_id]
