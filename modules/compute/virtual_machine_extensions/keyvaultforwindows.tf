@@ -35,7 +35,7 @@ resource "azurerm_virtual_machine_extension" "keyvault_for_windows" {
 # }
 
 locals {
-  # certificate_ids                   = [for key, value in tomap(data.azurerm_key_vault_certificate.certificate) : value.secret_id]
+  certificate_ids                   = [for key, value in tomap(data.azurerm_key_vault_certificate.certificate) : value.secret_id]
   managed_local_identity_client_id  = try(var.managed_identities[var.client_config.landingzone_key][var.extension.managed_identity_key].client_id, "")
   managed_remote_identity_client_id = try(var.managed_identities[var.extension.lz_key][var.extension.managed_identity_key].client_id, "")
   provided_identity_client_id       = try(var.extension.managed_identity_id, "")
