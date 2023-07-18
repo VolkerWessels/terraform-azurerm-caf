@@ -11,11 +11,11 @@ resource "azurerm_virtual_machine_extension" "keyvault_for_windows" {
   settings = jsonencode(
     {
       "secretsManagementSettings" : {
-        "pollingIntervalInS" : try(var.extension.polling_interval_in_s, "3600")
-        "linkOnRenewal" : try(var.extension.link_on_renewal, false)
-        "requireInitialSync" : try(var.extension.require_initial_sync, true)
-        "certificateStoreName" : try(var.extension.certificate_store_name, "My")
-        "certificateStoreLocation" : try(var.extension.certificate_store_location, "LocalMachine")
+        "pollingIntervalInS" : try(var.extension.secretsManagementSettings.polling_interval_in_s, "3600")
+        "linkOnRenewal" : try(var.extension.secretsManagementSettings.link_on_renewal, false)
+        "requireInitialSync" : try(var.extension.secretsManagementSettings.require_initial_sync, true)
+        "certificateStoreName" : try(var.extension.secretsManagementSettings.certificate_store_name, "My")
+        "certificateStoreLocation" : try(var.extension.secretsManagementSettings.certificate_store_location, "LocalMachine")
         "observedCertificates" : try(var.extension.secretsManagementSettings.observedCertificates, "")
       }
       "authenticationSettings" : {
