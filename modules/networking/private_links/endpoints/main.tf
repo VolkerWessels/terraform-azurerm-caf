@@ -17,7 +17,7 @@ locals {
   #   null)
   tags = var.base_tags ? merge(
     var.global_settings.tags,
-    try(var.tags,null),
+    try(local.tags,null),
     try(var.settings.tags, null)
   ) : try(var.settings.tags, null)
 
