@@ -15,9 +15,9 @@ locals {
   #   ) : merge(
   #   try(var.settings.tags,
   #   null)
-    tags = var.base_tags ? merge(
+  tags = var.base_tags ? merge(
     var.global_settings.tags,
-    var.tags,
+    try(var.tags,null),
     try(var.settings.tags, null)
   ) : try(var.settings.tags, null)
 
