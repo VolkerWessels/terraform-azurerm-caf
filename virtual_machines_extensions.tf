@@ -2,22 +2,22 @@
 # microsoft_enterprise_cloud_monitoring - Install the monitoring agent in the virtual machine
 #
 
-# module "vm_extension_monitoring_agent" {
-#   source = "./modules/compute/virtual_machine_extensions"
+module "vm_extension_monitoring_agent" {
+  source = "./modules/compute/virtual_machine_extensions"
 
-#   for_each = {
-#     for key, value in try(local.compute.virtual_machines, {}) : key => value
-#     if try(value.virtual_machine_extensions.microsoft_enterprise_cloud_monitoring, null) != null
-#   }
+  for_each = {
+    for key, value in try(local.compute.virtual_machines, {}) : key => value
+    if try(value.virtual_machine_extensions.microsoft_enterprise_cloud_monitoring, null) != null
+  }
 
-#   client_config      = local.client_config
-#   virtual_machine_id = module.virtual_machines[each.key].id
-#   extension          = each.value.virtual_machine_extensions.microsoft_enterprise_cloud_monitoring
-#   extension_name     = "microsoft_enterprise_cloud_monitoring"
-#   settings = {
-#     diagnostics = local.combined_diagnostics
-#   }
-# }
+  client_config      = local.client_config
+  virtual_machine_id = module.virtual_machines[each.key].id
+  extension          = each.value.virtual_machine_extensions.microsoft_enterprise_cloud_monitoring
+  extension_name     = "microsoft_enterprise_cloud_monitoring"
+  settings = {
+    diagnostics = local.combined_diagnostics
+  }
+}
 
 module "vm_extension_diagnostics" {
   source = "./modules/compute/virtual_machine_extensions"
