@@ -156,6 +156,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "polgroup" {
           #   rule.value.destination_address,
           #   var.public_ip_addresses[rule.value.destination_address_public_ip_key].ip_address
           # )
+
           destination_addresses = try(rule.value.destination_address, null)
           translated_port       = rule.value.translated_port
           translated_address    = try(rule.value.translated_address, null)
