@@ -19,7 +19,3 @@ variable "public_ip_addresses" {
   description = "(Optional) A map of destination IP addresses (including CIDR)."
   default     = {}
 }
-
-variable "destination_addresses" {
-
-}
