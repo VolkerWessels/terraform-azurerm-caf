@@ -33,12 +33,7 @@ resource "azurerm_firewall_nat_rule_collection" "natcollection" {
         if contains(rule.value.source_ip_groups_keys, key)
         ]), null)
       )
-      destination_ports = rule.value.destination_ports
-      # destination_addresses = try(rule.value.destination_addresses, try(flatten([
-      #   for key, value in var.public_ip_addresses : value.ip_address
-      #   if contains(rule.value.destination_addresses_public_ips_keys, key)
-      #   ]), null)
-      # )
+      destination_ports   = rule.value.destination_ports
       destination_address = try(rule.value.destination_address, null)
       translated_port     = rule.value.translated_port
       translated_address  = rule.value.translated_address
