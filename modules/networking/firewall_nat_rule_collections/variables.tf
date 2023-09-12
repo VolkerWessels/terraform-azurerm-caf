@@ -20,6 +20,6 @@ variable "ip_groups" {
   default = {}
 }
 
-variable "public_ip_addresses" {
-  default = {}
-}
+# variable "public_ip_addresses" {
+#   default = {}
+# }
