@@ -33,11 +33,11 @@ resource "azurerm_firewall_nat_rule_collection" "natcollection" {
         if contains(rule.value.source_ip_groups_keys, key)
         ]), null)
       )
-      destination_ports   = rule.value.destination_ports
-      destination_address = try(rule.value.destination_address, null)
-      translated_port     = rule.value.translated_port
-      translated_address  = rule.value.translated_address
-      protocols           = rule.value.protocols
+      destination_ports     = rule.value.destination_ports
+      destination_addresses = try(rule.value.destination_address, null)
+      translated_port       = rule.value.translated_port
+      translated_address    = rule.value.translated_address
+      protocols             = rule.value.protocols
     }
   }
 }
