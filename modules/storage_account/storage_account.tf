@@ -36,6 +36,8 @@ resource "azurerm_storage_account" "stg" {
   queue_encryption_key_type         = try(var.storage_account.queue_encryption_key_type, null)
   resource_group_name               = local.resource_group_name
   table_encryption_key_type         = try(var.storage_account.table_encryption_key_type, null)
+  #Add 14-9-MvW 
+  public_network_access_enabled     = try(var.storage_account.public_network_access_enabled, true)
   tags                              = merge(local.tags, try(var.storage_account.tags, null), local.caf_tags)
 
 
