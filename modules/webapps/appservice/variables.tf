@@ -76,3 +76,4 @@ variable "private_endpoints" {}
 variable "private_dns" {}
 variable "azuread_applications" {}
 variable "azuread_service_principal_passwords" {}
+variable "no_app_settings" {}
