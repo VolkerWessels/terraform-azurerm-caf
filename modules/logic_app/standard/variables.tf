@@ -19,6 +19,9 @@ variable "app_service_plans" {
 variable "app_settings" {
   description = "Application settings"
 }
+variable "external_app_settings" {
+  description = "External application settings"
+}
 variable "subnets" {
   description = "Subnets"
 }

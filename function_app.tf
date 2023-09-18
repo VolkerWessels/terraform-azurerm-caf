@@ -7,6 +7,7 @@ module "function_apps" {
   client_config              = local.client_config
   dynamic_app_settings       = try(each.value.dynamic_app_settings, {})
   app_settings               = try(each.value.app_settings, null)
+  external_app_settings      = try(each.value.external_app_settings, false)
   combined_objects           = local.dynamic_app_settings_combined_objects
   app_service_plan_id        = can(each.value.app_service_plan_id) || can(each.value.app_service_plan_key) == false ? try(each.value.app_service_plan_id, null) : local.combined_objects_app_service_plans[try(each.value.lz_key, local.client_config.landingzone_key)][each.value.app_service_plan_key].id
   settings                   = each.value.settings
