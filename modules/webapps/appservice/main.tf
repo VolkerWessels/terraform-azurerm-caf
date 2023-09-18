@@ -27,7 +27,7 @@ locals {
 
   arm_filename = "${path.module}/arm_site_config.json"
 
-  app_settings = var.no_app_settings == true ? null : merge(
+  app_settings = var.no_app_settings == true ? "TESTING" : merge(
     try(var.app_settings, {}),
     try(local.dynamic_settings_to_process, {}),
     var.application_insight == null ? {} : {
