@@ -149,6 +149,7 @@ locals {
     wvd_workspaces                             = local.combined_objects_wvd_workspaces
     log_analytics                              = local.current_objects_log_analytics
     route_tables                               = local.combined_objects_route_tables
+    servicebus_namespaces                      = local.combined_objects_servicebus_namespaces
   }
 
   current_objects_log_analytics = tomap(
