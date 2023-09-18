@@ -13,7 +13,7 @@ module "app_services" {
   identity                            = try(each.value.identity, null)
   connection_strings                  = try(each.value.connection_strings, {})
   app_settings                        = try(each.value.app_settings, null)
-  external_app_settings               = try(each.value.no_app_settings, false)
+  external_app_settings               = try(each.value.external_app_settings, false)
   slots                               = try(each.value.slots, {})
   global_settings                     = local.global_settings
   dynamic_app_settings                = try(each.value.dynamic_app_settings, {})
