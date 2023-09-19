@@ -72,5 +72,3 @@ variable "dynamic_app_settings" {
 variable "remote_objects" {
   default = null
 }
-
-variable "private_endpoints" {}
