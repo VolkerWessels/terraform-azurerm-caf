@@ -2,7 +2,7 @@ module "private_endpoint" {
   source   = "../../../networking/private_endpoint"
   for_each = try(var.settings.private_endpoints, {})
 
-  base_tags       = var.base_tags
+  base_tags       = local.base_tags
   client_config   = var.client_config
   global_settings = var.global_settings
   location        = local.location
