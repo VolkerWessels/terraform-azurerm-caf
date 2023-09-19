@@ -15,3 +15,4 @@ variable "resource_groups" {
   description = "Combined resource groups object."
   default     = {}
 }
+

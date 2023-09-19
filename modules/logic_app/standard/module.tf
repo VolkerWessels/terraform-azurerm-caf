@@ -15,6 +15,7 @@ resource "azurerm_logic_app_standard" "logic_app_standard" {
   app_service_plan_id        = local.app_service_plan.id
   storage_account_name       = local.storage_account.name
   storage_account_access_key = local.storage_account.primary_access_key
+  https_only                 = try(var.settings.https_only, null)
 
   app_settings = local.app_settings
 
