@@ -3,7 +3,6 @@ module "private_endpoint" {
   for_each = try(var.settings.private_endpoints, {})
 
   #base_tags       = local.base_tags
-  base_tags       = local.tags
   client_config   = var.client_config
   global_settings = var.global_settings
   location        = local.location
