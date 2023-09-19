@@ -7,6 +7,8 @@ module "servicebus_namespaces" {
   client_config   = local.client_config
   settings        = each.value
 
+  base_tags           = local.global_settings.inherit_tags
+
   resource_groups = local.combined_objects_resource_groups
 
   remote_objects = {
