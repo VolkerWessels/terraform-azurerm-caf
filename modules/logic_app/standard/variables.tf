@@ -32,7 +32,7 @@ variable "vnets" {
   default = {}
 }
 variable "base_tags" {
-  default = {}
+  default = false
 }
 variable "identity" {
   default = null
