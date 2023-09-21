@@ -19,5 +19,10 @@
         "MD025": {
             "front_matter_title": ""
         }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#E5A0BA",
+        "titleBar.activeBackground": "#EDBED0",
+        "titleBar.activeForeground": "#300D1A"
     }
 }
