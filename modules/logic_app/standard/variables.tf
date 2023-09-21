@@ -46,3 +46,8 @@ variable "virtual_subnets" {
 variable "vnet_integration" {
   default = {}
 }
+
+variable "external_app_settings" {
+  default = false
+  
+}
