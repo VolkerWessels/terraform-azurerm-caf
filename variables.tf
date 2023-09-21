@@ -436,3 +436,6 @@ variable "aadb2c" {
 variable "preview_features" {
   default = {}
 }
+variable "powerbi_embedded" {
+  default = {}
+}
