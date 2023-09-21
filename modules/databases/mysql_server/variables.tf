@@ -24,6 +24,7 @@ variable "diagnostics" {
 variable "private_dns" {
   default = {}
 }
+variable "virtual_subnets" {}
 variable "location" {
   description = "location of the resource if different from the resource group."
   default     = null

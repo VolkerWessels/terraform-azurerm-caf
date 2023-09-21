@@ -19,6 +19,9 @@ variable "app_service_plans" {
 variable "app_settings" {
   description = "Application settings"
 }
+variable "external_app_settings" {
+  description = "External application settings"
+}
 variable "subnets" {
   description = "Subnets"
 }
@@ -32,7 +35,7 @@ variable "vnets" {
   default = {}
 }
 variable "base_tags" {
-  default = {}
+  default = false
 }
 variable "identity" {
   default = null
@@ -46,8 +49,6 @@ variable "virtual_subnets" {
 variable "vnet_integration" {
   default = {}
 }
-
 variable "external_app_settings" {
   default = false
-  
 }

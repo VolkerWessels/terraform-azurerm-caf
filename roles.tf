@@ -51,19 +51,6 @@ resource "time_sleep" "azurerm_role_assignment_for" {
   create_duration = "2m"
 }
 
-resource "time_sleep" "azurerm_role_assignment_for_deferred" {
-  depends_on = [azurerm_role_assignment.for_deferred]
-  count = length(
-    {
-      for key, value in try(local.roles_to_process, {}) : key => value
-      if contains(keys(local.services_roles_deferred), value.scope_resource_key)
-    }
-  ) > 0 ? 1 : 0
-
-  # 2 mins timer on creation
-  create_duration = "2m"
-}
-
 data "azurerm_management_group" "level" {
   for_each = {
     for key, value in try(var.role_mapping.built_in_role_mapping.management_group, {}) : key => value
@@ -164,6 +151,9 @@ locals {
     wvd_applications                           = local.combined_objects_wvd_applications
     wvd_host_pools                             = local.combined_objects_wvd_host_pools
     wvd_workspaces                             = local.combined_objects_wvd_workspaces
+    log_analytics                              = local.current_objects_log_analytics
+    route_tables                               = local.combined_objects_route_tables
+    servicebus_namespaces                      = local.combined_objects_servicebus_namespaces
   }
 
   current_objects_log_analytics = tomap(

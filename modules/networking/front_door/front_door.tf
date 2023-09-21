@@ -128,7 +128,6 @@ resource "azurerm_frontdoor" "frontdoor" {
   }
 }
 
-
 resource "azurerm_frontdoor_custom_https_configuration" "frontdoor" {
   for_each = {
     for key, value in var.settings.frontend_endpoints : key => value

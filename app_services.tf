@@ -13,6 +13,7 @@ module "app_services" {
   identity                            = try(each.value.identity, null)
   connection_strings                  = try(each.value.connection_strings, {})
   app_settings                        = try(each.value.app_settings, null)
+  external_app_settings               = try(each.value.external_app_settings, false)
   slots                               = try(each.value.slots, {})
   global_settings                     = local.global_settings
   dynamic_app_settings                = try(each.value.dynamic_app_settings, {})
@@ -47,5 +48,5 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_config" {
   }
 
   app_service_id = module.app_services[each.key].id
-  subnet_id      = local.combined_objects_networking[try(each.value.vnet_integration.lz_key, local.client_config.landingzone_key)][each.value.vnet_integration.vnet_key].subnets[each.value.vnet_integration.subnet_key].id
+  subnet_id      = try(local.combined_objects_virtual_subnets[try(each.value.vnet_integration.lz_key, local.client_config.landingzone_key)][each.value.vnet_integration.subnet_key].id, local.combined_objects_networking[try(each.value.vnet_integration.lz_key, local.client_config.landingzone_key)][each.value.vnet_integration.vnet_key].subnets[each.value.vnet_integration.subnet_key].id)
 }
