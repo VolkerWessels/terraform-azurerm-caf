@@ -19,15 +19,6 @@ resource "azurerm_logic_app_standard" "logic_app_standard" {
 
   app_settings = local.app_settings
 
-  dynamic "identity" {
-    for_each = try(var.identity, null) == null ? [] : [1]
-
-    content {
-      type         = var.identity.type
-      identity_ids = lower(var.identity.type) == "userassigned" ? local.managed_identities : null
-    }
-  }
-
   dynamic "site_config" {
     for_each = lookup(var.settings, "site_config", {}) != {} ? [1] : []
 
