@@ -34,9 +34,6 @@ variable "vnets" {
 variable "base_tags" {
   default = false
 }
-variable "tags" {
-  default = null
-}
 variable "identity" {
   default = null
 }
