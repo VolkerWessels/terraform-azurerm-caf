@@ -156,6 +156,7 @@ module "logic_app_standard" {
   virtual_subnets       = local.combined_objects_virtual_subnets
   base_tags             = try(local.global_settings.inherit_tags, false)
   vnet_integration      = try(each.value.vnet_integration, {})
+  combined_objects      = local.dynamic_app_settings_combined_objects
 }
 
 output "logic_app_standard" {
