@@ -64,6 +64,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_config" {
 
   lifecycle {
     prevent_destroy = true
+    ignore_changes = [subnet_id]
   }
 
 }
