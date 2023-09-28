@@ -49,3 +49,7 @@ variable "vnet_integration" {
 variable "external_app_settings" {
   default = false
 }
+
+variable "dynamic_app_settings" {
+  default = {}
+}
