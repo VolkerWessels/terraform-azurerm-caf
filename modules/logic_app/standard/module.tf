@@ -54,7 +54,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_config" {
   try(var.virtual_subnets[var.client_config.landingzone_key][var.vnet_integration.subnet_key].id, var.virtual_subnets[var.vnet_integration.lz_key][var.vnet_integration.subnet_key].id))
 
   lifecycle {
-    prevent_destory = true
+    prevent_destroy = true
   }
 
 }
