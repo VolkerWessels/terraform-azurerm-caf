@@ -157,6 +157,7 @@ module "logic_app_standard" {
   base_tags             = try(local.global_settings.inherit_tags, false)
   vnet_integration      = try(each.value.vnet_integration, {})
   combined_objects      = local.dynamic_app_settings_combined_objects
+  tags                  = try(each.value.tags, null)
 }
 
 output "logic_app_standard" {
