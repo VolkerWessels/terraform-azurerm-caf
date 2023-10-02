@@ -74,4 +74,6 @@ variable "remote_objects" {
 }
 
 variable "external_app_settings" {}
+variable "subnet_id" {}
 variable "private_endpoints" {}
+variable "private_dns" {}
