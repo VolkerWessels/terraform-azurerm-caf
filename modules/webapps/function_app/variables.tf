@@ -74,3 +74,4 @@ variable "remote_objects" {
 }
 
 variable "external_app_settings" {}
+variable "private_endpoints" {}
