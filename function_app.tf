@@ -33,6 +33,7 @@ module "function_apps" {
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : null
   location            = try(local.global_settings.regions[each.value.region], null)
   private_endpoints                   = try(each.value.private_endpoints, {})
+  vnets                               = local.combined_objects_networking
   subnet_id                           = can(each.value.subnet_id) || can(each.value.vnet_key) == false ? try(each.value.subnet_id, null) : local.combined_objects_networking[try(each.value.lz_key, local.client_config.landingzone_key)][each.value.vnet_key].subnets[each.value.subnet_key].id
   private_dns                         = local.combined_objects_private_dns
 }
