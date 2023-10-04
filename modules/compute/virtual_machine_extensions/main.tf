@@ -23,3 +23,19 @@ data "azurecaf_environment_variable" "token" {
   name           = var.extension.pats_from_env_variable.variable_name
   fails_if_empty = true
 }
+
+locals {
+  module_tag = {
+    "module" = basename(abspath(path.module))
+  }
+  tags = var.base_tags ? merge(
+    var.global_settings.tags,
+    try(var.resource_group.tags, null),
+    local.module_tag,
+    try(var.settings.tags, null)
+    ) : merge(
+    local.module_tag,
+    try(var.settings.tags,
+    null)
+  )
+}
