@@ -61,3 +61,8 @@ variable "resource_group" {
 variable "tags" {
   default = null
 }
+
+variable "resource_group_name" {
+  description = "Resource group object to deploy the virtual machine"
+  default     = null
+}
