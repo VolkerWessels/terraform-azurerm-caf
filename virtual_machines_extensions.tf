@@ -161,6 +161,7 @@ module "vm_extensions_devops_selfhosted_agent" {
   virtual_machine_id = module.virtual_machines[each.key].id
   extension          = each.value.virtual_machine_extensions.devops_selfhosted_agent
   extension_name     = "devops_selfhosted_agent"
+  base_tags          = local.global_settings.inherit_tags
 
   settings = {
     devops_selfhosted_agent = {
@@ -189,6 +190,7 @@ module "vm_extensions_tfcloud_selfhosted_agent" {
   virtual_machine_id = module.virtual_machines[each.key].id
   extension          = each.value.virtual_machine_extensions.tfcloud_selfhosted_agent
   extension_name     = "tfcloud_selfhosted_agent"
+  base_tags          = local.global_settings.inherit_tags
 
   settings = {
     tfcloud_selfhosted_agent = {
