@@ -6,6 +6,7 @@ resource "azurerm_virtual_machine_extension" "AADLogin" {
   type                       = local.aadlogin_type
   type_handler_version       = var.extension.type_handler_version
   auto_upgrade_minor_version = true
+  tags                       = merge(local.tags, try(each.value.tags, null))
 }
 
 locals {
