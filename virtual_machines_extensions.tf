@@ -172,6 +172,7 @@ module "vm_extensions_devops_selfhosted_agent" {
   extension_name     = "devops_selfhosted_agent"
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 
   settings = {
     devops_selfhosted_agent = {
