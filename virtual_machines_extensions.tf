@@ -16,6 +16,7 @@ module "vm_extension_monitoring_agent" {
   extension_name     = "microsoft_enterprise_cloud_monitoring"
   base_tags          = local.global_settings.inherit_tags
   global_settings    = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
   settings = {
     diagnostics = local.combined_diagnostics
   }
@@ -35,6 +36,7 @@ module "vm_extension_diagnostics" {
   extension_name     = "microsoft_azure_diagnostics"
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
   settings = {
     var_folder_path                  = var.var_folder_path
     diagnostics                      = local.combined_diagnostics
@@ -58,6 +60,7 @@ module "vm_extension_microsoft_azure_domainjoin" {
   keyvaults          = local.combined_objects_keyvaults
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 }
 
 module "vm_extension_session_host_dscextension" {
@@ -77,6 +80,7 @@ module "vm_extension_session_host_dscextension" {
   wvd_host_pools     = local.combined_objects_wvd_host_pools
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 }
 
 module "vm_extension_custom_scriptextension" {
@@ -98,6 +102,7 @@ module "vm_extension_custom_scriptextension" {
   storage_accounts        = local.combined_objects_storage_accounts
   base_tags               = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 }
 
 module "vm_extension_generic" {
@@ -134,6 +139,7 @@ module "keyvault_for_windows" {
   keyvaults               = local.combined_objects_keyvaults
   base_tags               = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 }
 
 module "vm_extension_linux_diagnostic" {
@@ -150,6 +156,7 @@ module "vm_extension_linux_diagnostic" {
   extension_name     = "linux_diagnostic"
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 
   settings = {
     var_folder_path            = var.var_folder_path
@@ -203,6 +210,7 @@ module "vm_extensions_tfcloud_selfhosted_agent" {
   extension_name     = "tfcloud_selfhosted_agent"
   base_tags          = local.global_settings.inherit_tags
   global_settings             = local.global_settings
+  resource_group          = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)]
 
   settings = {
     tfcloud_selfhosted_agent = {
