@@ -20,7 +20,7 @@ locals {
     try(var.tags,
     null)
   )
-  resource_group   = var.resource_groups[try(var.settings.lz_key, var.settings.resource_group.lz_key, var.client_config.landingzone_key)][try(var.settings.resource_group.key, var.settings.resource_group_key)]
+  resource_group_name = coalesce(var.resource_group_name, var.resource_group.name)
   storage_account  = var.storage_accounts[try(var.settings.lz_key, var.settings.storage_account.lz_key, var.client_config.landingzone_key)][try(var.settings.storage_account.key, var.settings.storage_account_key)]
   app_service_plan = var.app_service_plans[try(var.settings.app_service_plan.lz_key, var.settings.lz_key, var.client_config.landingzone_key)][try(var.settings.app_service_plan.key, var.settings.app_service_plan_key)]
   app_settings     = var.external_app_settings == true ? null : try(var.app_settings, null)
