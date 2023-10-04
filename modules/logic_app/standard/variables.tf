@@ -53,3 +53,11 @@ variable "external_app_settings" {
 variable "dynamic_app_settings" {
   default = {}
 }
+
+variable "resource_group" {
+  description = "Resource group object to deploy the virtual machine"
+}
+
+variable "tags" {
+  default = null
+}
