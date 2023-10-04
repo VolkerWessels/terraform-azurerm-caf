@@ -14,6 +14,7 @@ module "vm_extension_monitoring_agent" {
   virtual_machine_id = module.virtual_machines[each.key].id
   extension          = each.value.virtual_machine_extensions.microsoft_enterprise_cloud_monitoring
   extension_name     = "microsoft_enterprise_cloud_monitoring"
+  base_tags          = local.global_settings.inherit_tags
   settings = {
     diagnostics = local.combined_diagnostics
   }
@@ -31,6 +32,7 @@ module "vm_extension_diagnostics" {
   virtual_machine_id = module.virtual_machines[each.key].id
   extension          = each.value.virtual_machine_extensions.microsoft_azure_diagnostics
   extension_name     = "microsoft_azure_diagnostics"
+  base_tags          = local.global_settings.inherit_tags
   settings = {
     var_folder_path                  = var.var_folder_path
     diagnostics                      = local.combined_diagnostics
@@ -52,6 +54,7 @@ module "vm_extension_microsoft_azure_domainjoin" {
   extension          = each.value.virtual_machine_extensions.microsoft_azure_domainjoin
   extension_name     = "microsoft_azure_domainJoin"
   keyvaults          = local.combined_objects_keyvaults
+  base_tags          = local.global_settings.inherit_tags
 }
 
 module "vm_extension_session_host_dscextension" {
@@ -69,6 +72,7 @@ module "vm_extension_session_host_dscextension" {
   extension_name     = "session_host_dscextension"
   keyvaults          = local.combined_objects_keyvaults
   wvd_host_pools     = local.combined_objects_wvd_host_pools
+  base_tags          = local.global_settings.inherit_tags
 }
 
 module "vm_extension_custom_scriptextension" {
@@ -88,6 +92,7 @@ module "vm_extension_custom_scriptextension" {
   extension_name          = "custom_script"
   managed_identities      = local.combined_objects_managed_identities
   storage_accounts        = local.combined_objects_storage_accounts
+  base_tags               = local.global_settings.inherit_tags
 }
 
 module "vm_extension_generic" {
@@ -102,6 +107,7 @@ module "vm_extension_generic" {
   virtual_machine_os_type = module.virtual_machines[each.key].os_type
   extension               = each.value.virtual_machine_extensions.generic_extensions
   extension_name          = "generic_extension"
+  base_tags               = local.global_settings.inherit_tags
 }
 
 module "keyvault_for_windows" {
@@ -119,6 +125,7 @@ module "keyvault_for_windows" {
   extension               = each.value.virtual_machine_extensions.keyvault_for_windows
   extension_name          = "keyvault_for_windows"
   keyvaults               = local.combined_objects_keyvaults
+  base_tags               = local.global_settings.inherit_tags
 }
 
 module "vm_extension_linux_diagnostic" {
@@ -133,6 +140,7 @@ module "vm_extension_linux_diagnostic" {
   virtual_machine_id = module.virtual_machines[each.key].id
   extension          = each.value.virtual_machine_extensions.linux_diagnostic
   extension_name     = "linux_diagnostic"
+  base_tags          = local.global_settings.inherit_tags
 
   settings = {
     var_folder_path            = var.var_folder_path
