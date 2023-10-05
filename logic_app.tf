@@ -154,9 +154,13 @@ module "logic_app_standard" {
   private_dns           = local.combined_objects_private_dns
   vnets                 = local.combined_objects_networking
   virtual_subnets       = local.combined_objects_virtual_subnets
-  base_tags             = try(local.global_settings.inherit_tags, false)
+  #base_tags             = try(local.global_settings.inherit_tags, false)
   vnet_integration      = try(each.value.vnet_integration, {})
   combined_objects      = local.dynamic_app_settings_combined_objects
+  base_tags           = local.global_settings.inherit_tags
+  resource_group      = local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)]
+  resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : null
+  location            = try(local.global_settings.regions[each.value.region], null)
 }
 
 output "logic_app_standard" {

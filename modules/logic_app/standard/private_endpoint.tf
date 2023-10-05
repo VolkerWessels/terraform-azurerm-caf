@@ -4,8 +4,8 @@ module "private_endpoint" {
 
   resource_id         = azurerm_logic_app_standard.logic_app_standard.id
   name                = each.value.name
-  location            = lookup(var.settings, "region", null) == null ? local.resource_group.location : var.global_settings.regions[var.settings.region]
-  resource_group_name = local.resource_group.name
+  location            = local.location
+  resource_group_name = local.resource_group_name
   subnet_id = coalesce(
     try(each.value.subnet_id, null),
     try(var.vnets[var.client_config.landingzone_key][each.value.vnet_key].subnets[each.value.subnet_key].id, null),

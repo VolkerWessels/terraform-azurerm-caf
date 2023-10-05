@@ -12,6 +12,7 @@ resource "azurerm_virtual_machine_extension" "genext" {
   auto_upgrade_minor_version  = try(each.value.auto_upgrade_minor_version, null)
   automatic_upgrade_enabled   = try(each.value.automatic_upgrade_enabled, null)
   failure_suppression_enabled = try(each.value.failure_suppression_enabled, null)
+  tags                        = merge(local.tags, try(each.value.tags, null))
 
   settings           = try(each.value.settings, null)
   protected_settings = try(each.value.protected_settings, null)

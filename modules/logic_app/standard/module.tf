@@ -10,12 +10,13 @@ resource "azurecaf_name" "logic_app_standard_name" {
 
 resource "azurerm_logic_app_standard" "logic_app_standard" {
   name                       = azurecaf_name.logic_app_standard_name.result
-  location                   = lookup(var.settings, "region", null) == null ? local.resource_group.location : var.global_settings.regions[var.settings.region]
-  resource_group_name        = local.resource_group.name
+  location                   = local.location
+  resource_group_name        = local.resource_group_name
   app_service_plan_id        = local.app_service_plan.id
   storage_account_name       = local.storage_account.name
   storage_account_access_key = local.storage_account.primary_access_key
   https_only                 = try(var.settings.https_only, null)
+  tags                       = merge(local.tags, try(var.settings.tags, {}))
 
   app_settings = local.app_settings
 

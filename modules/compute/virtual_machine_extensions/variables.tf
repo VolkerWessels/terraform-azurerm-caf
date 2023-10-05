@@ -25,3 +25,13 @@ variable "storage_accounts" {
 variable "virtual_machine_os_type" {
   default = {}
 }
+variable "base_tags" {
+  description = "Base tags for the resource to be inherited from the resource group."
+  type        = bool
+}
+variable "global_settings" {
+  description = "Global settings object (see module README.md)"
+}
+variable "resource_group" {
+  description = "Resource group object to deploy the virtual machine"
+}
