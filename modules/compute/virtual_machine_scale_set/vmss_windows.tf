@@ -81,7 +81,8 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   zones                        = try(each.value.zones, null)
   single_placement_group       = try(each.value.single_placement_group, null)
   upgrade_mode                 = try(each.value.upgrade_mode, null)
-  enable_automatic_updates  = try(each.value.upgrade_mode == "Manual" ? false : true, null)
+  #enable_automatic_updates  = try(each.value.upgrade_mode == "Manual" ? false : true, null)
+  enable_automatic_updates     = try(each.value.automatic_os_upgrade_policy.enable_automatic_os_upgrade == true ? false : true, false)
   timezone     = try(each.value.timezone, null)
   license_type = try(each.value.license_type, null)
 
