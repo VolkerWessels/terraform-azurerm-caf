@@ -13,7 +13,5 @@ locals {
     ]
   ])
 
-  provided_identities = try(var.identity.managed_identity_ids, [])
-
   managed_identities = concat(local.managed_local_identities, local.managed_remote_identities)
 }
