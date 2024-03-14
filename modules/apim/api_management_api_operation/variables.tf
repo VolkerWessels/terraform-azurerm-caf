@@ -44,7 +44,6 @@ variable "settings" {
           "resource_group_name",
           "resource_group",
           "responses",
-          "template_parameters",
           "url_template"
         ]
       )
