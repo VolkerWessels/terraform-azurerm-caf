@@ -14,7 +14,7 @@ resource "azurerm_private_endpoint" "pep" {
   location            = local.location
   resource_group_name = local.resource_group_name
   subnet_id           = var.subnet_id
-  tags = merge(local.tags, try(each.value.tags, null))
+  #tags = merge(local.tags, try(each.value.tags, null))
 
 
   private_service_connection {
