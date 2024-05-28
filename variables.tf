@@ -440,6 +440,3 @@ variable "powerbi_embedded" {
   default = {}
 }
 
-variable "vpn_gateway_nat_rules" {
-  default = {}
-}

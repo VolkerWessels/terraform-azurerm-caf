@@ -9,6 +9,3 @@ variable "resource_group_name" {
 }
 variable "client_config" {}
 
-variable "vpn_gateway_nat_rules" {
-  default = {}
-}
