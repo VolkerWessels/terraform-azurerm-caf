@@ -8,3 +8,7 @@ variable "resource_group_name" {
   type        = string
 }
 variable "client_config" {}
+
+variable "vpn_gateway_nat_rules" {
+  default = {}
+}
