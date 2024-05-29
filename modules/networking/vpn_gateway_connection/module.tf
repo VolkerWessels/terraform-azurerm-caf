@@ -18,6 +18,15 @@ resource "azurerm_vpn_gateway_connection" "vpn_gateway_connection" {
     try(var.settings.vpn_site_id, null)
   )
 
+  dynamic "traffic_selector_policy" {
+    for_each = try(var.settings.traffic_selector_policy, {})
+    content {
+      local_address_ranges  = traffic_selector_policy.value.local_address_ranges
+      remote_address_ranges = traffic_selector_policy.value.remote_address_ranges
+    }
+  }
+
+
   dynamic "vpn_link" {
     for_each = var.settings.vpn_links
     content {
