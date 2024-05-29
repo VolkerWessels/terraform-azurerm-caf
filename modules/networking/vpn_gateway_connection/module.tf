@@ -21,8 +21,8 @@ resource "azurerm_vpn_gateway_connection" "vpn_gateway_connection" {
   dynamic "traffic_selector_policy" {
     for_each = try(var.settings.traffic_selector_policy, {})
     content {
-      local_address_ranges  = flatten([for ts in traffic_selector_policy.value : ts.local_address_ranges])
-      remote_address_ranges = flatten([for ts in traffic_selector_policy.value: ts.remote_address_ranges])
+      local_address_ranges  = try(var.settings.traffic_selector_policy.local_address_ranges, null)
+      remote_address_ranges = try(var.settings.traffic_selector_policy.remote_address_ranges, null)
     }
   }
 
