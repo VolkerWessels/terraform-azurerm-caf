@@ -21,6 +21,7 @@ resource "azurerm_express_route_gateway" "er_gateway" {
   resource_group_name = var.resource_group_name
   tags                = local.tags
   virtual_hub_id      = azurerm_virtual_hub.vwan_hub.id
+  allow_non_virtual_wan_traffic = var.virtual_hub_config.allow_non_virtual_wan_traffic
   scale_units         = var.virtual_hub_config.er_config.scale_units
 
   timeouts {
