@@ -91,4 +91,10 @@ resource "azurerm_vpn_gateway_connection" "vpn_gateway_connection" {
 
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      traffic_selector_policy,
+    ]
+  }
 }
