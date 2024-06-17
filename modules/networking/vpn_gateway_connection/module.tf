@@ -94,7 +94,7 @@ resource "azurerm_vpn_gateway_connection" "vpn_gateway_connection" {
 
   lifecycle {
     create_before_destroy = true
-    prevent_destroy = true
+    # prevent_destroy = true
     ignore_changes = [
       traffic_selector_policy,
       vpn_link,
