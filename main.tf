@@ -34,11 +34,6 @@ terraform {
 provider "azapi" {
   skip_provider_registration = false
 }
-provider "azurerm" {
-  resource_provider_registrations = "none" # This is only required when the User, Service Principal, or Identity running Terraform lacks the permissions to register Azure Resource Providers.
-  features {}
-}
-
 
 data "azurerm_subscription" "primary" {}
 data "azurerm_client_config" "current" {}
