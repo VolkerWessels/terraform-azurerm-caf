@@ -7,6 +7,7 @@ terraform {
       configuration_aliases = [
         azurerm.vhub
       ]
+      resource_provider_registrations = "none"
     }
     azuread = {
       source  = "hashicorp/azuread"
