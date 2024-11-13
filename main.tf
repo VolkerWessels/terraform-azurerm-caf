@@ -32,7 +32,7 @@ terraform {
 }
 
 provider "azapi" {
-  skip_provider_registration = false
+  skip_provider_registration = true
 }
 
 data "azurerm_subscription" "primary" {}
