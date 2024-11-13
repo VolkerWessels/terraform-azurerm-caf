@@ -30,7 +30,9 @@ terraform {
   }
   required_version = ">= 1.3.0"
 }
-
+provider "azurerm" {
+  skip_provider_registration = true
+}
 provider "azapi" {
   skip_provider_registration = true
 }
